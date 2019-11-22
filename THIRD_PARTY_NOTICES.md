@@ -1,6 +1,6 @@
 # Third Party Notices
 
-The nr1-browser-analyzer uses source code from third party libraries which carry
+The nr1-donor-analyzer uses source code from third party libraries which carry
 their own copyright notices and license terms. These notices are provided
 below.
 

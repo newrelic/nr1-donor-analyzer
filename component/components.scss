@@ -74,16 +74,16 @@
   }
 }
 
-.satisfied .icon,
-.improvement .icon {
+.satisfied .icon{
   background-color: #F2FCF3;
 }
+
 
 .tolerated .icon {
   background-color: #FCF9F2;
 }
 
-.frustrated .icon {
+.frustrated .icon, .improvement .icon {
   background-color: #FDF5F6;
 }
 
@@ -105,6 +105,22 @@
     grid-auto-rows: 70px;
     grid-template-rows: inherit;
   }
+
+  .giving{
+    grid-auto-rows: 120px;
+  }
+}
+
+.givingRisk {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  grid-column-end: span 4;
+  box-shadow: inset -1px 1px 0 0 #ebecec;
+
+  &:nth-child(even) {
+    box-shadow: inset 0px 1px 0 0 #ebecec;
+  }
 }
 
 .cohortStat {
@@ -118,7 +134,7 @@
   }
 }
 
-.cohortStat .label {
+.cohortStat .label, .givingRisk .label {
   display: block;
   font-size: 14px;
   color: #2A3434;
@@ -136,6 +152,18 @@
   letter-spacing: 0.5px;
   text-align: center;
   line-height: 24px;
+  font-weight: 300;
+}
+
+.givingRisk .value {
+  display: block;
+  margin-top: 5px;
+  font-family: 'fira sans', 'open sans', sans-serif;
+  font-size: 60px;
+  color: #464e4e;
+  letter-spacing: 0.5px;
+  text-align: center;
+  line-height: 60px;
   font-weight: 300;
 }
 
@@ -185,6 +213,15 @@
   color: #8e9494;
 }
 
+.givingDescription {
+  text-align: center;
+  font-size: 18px;
+  margin: 10px auto 8px;
+  padding: 0px 16px 5px;
+  line-height: 19px;
+  color: #464e4e;
+}
+
 .icon {
   display: inline-block;
   font-size: 125px !important;
@@ -218,7 +255,9 @@
 
 .tableChart {
   width: 100%;
-  height: 100%;
+  // height: 100%;
+  min-height: 400px;
+  max-height: 100%;
 }
 
 .microchart {

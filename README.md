@@ -1,4 +1,4 @@
-# nr1-browser-analyzer
+# nr1-donor-analyzer
 
 ![GitHub release (latest SemVer including pre-releases)](https://img.shields.io/github/v/release/newrelic/nr1-browser-analyzer?include_prereleases&sort=semver) [![Snyk](https://snyk.io/test/github/newrelic/nr1-browser-analyzer/badge.svg)](https://snyk.io/test/github/newrelic/nr1-browser-analyzer)
 

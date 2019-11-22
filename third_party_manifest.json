@@ -1,6 +1,6 @@
 {
   "lastUpdated": "Tue Sep 17 2019 10:21:50 GMT-0400 (Eastern Daylight Time)",
-  "projectName": "nr1-browser-analyzer",
+  "projectName": "nr1-donor-analyzer",
   "projectUrl": "https://github.com/newrelic/nr1-browser-analyzer",
   "includeDev": true,
   "dependencies": {

@@ -30,7 +30,6 @@ export default class Wrapper extends React.PureComponent {
         {platformUrlState => (
           <NerdletStateContext.Consumer>
             {nerdletUrlState => {
-              console.log([nerdletUrlState, fragment]);
               return (
                 <EntityByGuidQuery
                   entityGuid={nerdletUrlState.entityGuid}
