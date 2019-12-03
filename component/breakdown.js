@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {
   EntityStorageQuery,
+  EntityStorageMutation,
   Modal,
   BlockText,
   Grid,
@@ -14,6 +15,7 @@ import {
   navigation,
   Button,
   Toast,
+  TextField,
 } from 'nr1';
 import DimensionPicker from './dimensionPicker';
 import SummaryBar from './summary-bar';
@@ -43,10 +45,18 @@ export default class Breakdown extends Component {
     super(props);
     this.state = {
       showConfig: false,
+      eventType: 'PageView',
+      donationValue: '',
+      crmAttribute: null,
     };
 
     this._setAccount = this._setAccount.bind(this);
     this._setDimension = this._setDimension.bind(this);
+    this._setEventType = this._setEventType.bind(this);
+    this._selectAttribute = this._selectAttribute.bind(this);
+    this._setDonationValue = this._setDonationValue.bind(this);
+    this._setDonorAnalyzer = this._setDonorAnalyzer.bind(this);
+    this._showDonor = this._showDonor.bind(this);
   }
 
   async componentDidMount() {
@@ -60,9 +70,12 @@ export default class Breakdown extends Component {
     })
       .then(res => {
         if (Array.isArray(res.data) && res.data.length) {
-          console.log('works');
+          const { crmAttr, value } = res.data[0].document;
+          this.setState({
+            donationValue: value,
+            crmAttribute: crmAttr,
+          });
         } else {
-          console.log('zero');
           this.setState({ showConfig: true });
         }
       })
@@ -75,7 +88,6 @@ export default class Breakdown extends Component {
       });
 
     if (entityGuid) {
-      console.log('loadEntity Called')
       await this.loadEntity();
     } else {
       // get all user accessible accounts
@@ -189,13 +201,57 @@ export default class Breakdown extends Component {
     this.setState({ account });
   }
 
+  _setEventType(eventType) {
+    this.setState({
+      eventType,
+      dimension: null,
+      filters: {},
+      filterWhere: null,
+    });
+  }
+
   _setDimension(dimension) {
-    this.setState({ dimension })
+    this.setState({ dimension });
+  }
+
+  _setDonationValue(e) {
+    this.setState({ donationValue: e.target.value });
+  }
+
+  _selectAttribute(attr) {
+    this.setState({ crmAttribute: attr });
+  }
+
+  _setDonorAnalyzer() {
+    const { entity } = this.props;
+    const { donationValue, crmAttribute } = this.state;
+
+    EntityStorageMutation.mutate({
+      entityGuid: entity.guid,
+      actionType: EntityStorageMutation.ACTION_TYPE.WRITE_DOCUMENT,
+      collection: 'donor-analyzer-db',
+      documentId: 'settings',
+      document: {
+        value: donationValue,
+        crmAttr: crmAttribute,
+      },
+    })
+      .then(() => this.setState({ showConfig: false }))
+      .catch(err => {
+        Toast.showToast({
+          title: 'Unable to save settings',
+          description: err.message || '',
+          type: Toast.TYPE.CRITICAL,
+        });
+      });
+  }
+
+  _showDonor(data) {
+    window.open(`http://google.com/${data}`, '_blank');
   }
 
   async loadEntity() {
     const { entityGuid } = this.props.nerdletUrlState;
-    console.log(entityGuid);
 
     if (entityGuid) {
       // to work with mobile and browser apps, we need the
@@ -203,7 +259,7 @@ export default class Breakdown extends Component {
       // not present in events like PageView, MobileSession, etc.
       const gql = `{
         actor {
-          entity(guid: "MjUwODI1OXxCUk9XU0VSfEFQUExJQ0FUSU9OfDIwNDI2MTYyOA") {
+          entity(guid: "${entityGuid}") {
             account {
               name
               id
@@ -225,12 +281,14 @@ export default class Breakdown extends Component {
         }
       }`;
 
-      const { data } = await NerdGraphQuery.query({ query: gql });
-      console.log('Nerdgraph', data);
+      const { data } = await NerdGraphQuery.query({
+        query: gql,
+        fetchPolicyType: NerdGraphQuery.FETCH_POLICY_TYPE.NO_CACHE,
+      });
       const { entity } = data.actor;
       await this.setState({ entity, account: entity.account });
     } else {
-      await this.setState({ entity: null });
+      this.setState({ entity: null });
     }
   }
 
@@ -276,9 +334,9 @@ export default class Breakdown extends Component {
           //debugger;
           const results = buildResults(data.actor.account);
 
-          const avgDonation = 150.75;
+          const { donationValue, crmAttribute } = this.state;
           const { frustratedSessions } = data.actor.account;
-          const givingRisk = buildGivingRisk(frustratedSessions, avgDonation);
+          const givingRisk = buildGivingRisk(frustratedSessions, donationValue);
           const { showConfig } = this.state;
 
           const {
@@ -297,7 +355,31 @@ export default class Breakdown extends Component {
           //console.debug("Data", [data, results]);
           return (
             <>
-              {/* {showConfig && <Modal />} */}
+              {showConfig && (
+                <Modal onClose={() => this.setState({ showConfig: false })}>
+                  <HeadingText>Donor Analyzer Setup</HeadingText>
+                  <TextField
+                    label="Please enter your average donation amount."
+                    spacingType={[TextField.SPACING_TYPE.MEDIUM]}
+                    placeholder="0.00"
+                    value={this.state.donationValue}
+                    onChange={this._setDonationValue}
+                  />
+                  <DimensionPicker
+                    {...this.props}
+                    {...this.state}
+                    selectAttribute={this._selectAttribute}
+                  />
+                  <Button
+                    spacingType={[Button.SPACING_TYPE.MEDIUM]}
+                    onClick={this._setDonorAnalyzer}
+                    type={Button.TYPE.PRIMARY}
+                    iconType={Button.ICON_TYPE.INTERFACE__SIGN__CHECKMARK}
+                  >
+                    Store Settings
+                  </Button>
+                </Modal>
+              )}
               <Grid className="breakdownContainer">
                 <GridItem columnSpan={12}>
                   <SummaryBar {...this.props} apmService={apmService} />
@@ -530,8 +612,10 @@ export default class Breakdown extends Component {
                         fullheight
                         fullwidth
                         // eslint-disable-next-line prettier/prettier
-                    query={`FROM PageView SELECT  session, duration, deviceType,pageUrl  WHERE appName='${entity.name}' AND duration >= ${frustratedApdex} ${pageUrl ? `WHERE pageUrl = '${pageUrl}'` : ''} limit MAX SINCE ${durationInMinutes} MINUTES AGO`}
-                        // data={givingRisk.impactedDonors}
+                        query={`FROM PageView SELECT  ${crmAttribute.key}, session, duration, deviceType, pageUrl  WHERE appName='${entity.name}' AND duration >= ${frustratedApdex} ${pageUrl ? `WHERE pageUrl = '${pageUrl}'` : ''} limit MAX SINCE ${durationInMinutes} MINUTES AGO`}
+                        onClickTable={(dataEl, row, chart) => {
+                          this._showDonor(row[`${crmAttribute.key}`]);
+                        }}
                       />
                     </GridItem>
                     <GridItem columnSpan={4} className="cohort improvement">
@@ -542,7 +626,7 @@ export default class Breakdown extends Component {
                       />
                       <h3 className="cohortTitle">Frustrated Giving</h3>
                       <p className="cohortDescription">
-                        Based on an average donation of ${avgDonation} and a
+                        Based on an average donation of ${donationValue} and a
                         Frustrated bounce rate of{' '}
                         {results.frustrated.bounceRate}% the{' '}
                         {results.frustrated.sessions} Frustrated sessions place.
@@ -555,11 +639,6 @@ export default class Breakdown extends Component {
                           </span>
                         </div>
                       </div>
-                      <DimensionPicker
-                        {...this.props}
-                        {...this.state}
-                        setDimension={this._setDimension}
-                      />
                     </GridItem>
                   </React.Fragment>
                 )}
