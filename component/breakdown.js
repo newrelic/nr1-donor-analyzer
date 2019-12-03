@@ -47,9 +47,7 @@ export default class Breakdown extends Component {
       showConfig: false,
       eventType: 'PageView',
       donationValue: '',
-      crmAttribute: {
-        key: 'asdf',
-      },
+      crmAttribute: null,
     };
 
     this._setAccount = this._setAccount.bind(this);
