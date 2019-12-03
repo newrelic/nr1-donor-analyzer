@@ -47,7 +47,9 @@ export default class Breakdown extends Component {
       showConfig: false,
       eventType: 'PageView',
       donationValue: '',
-      crmAttribute: null,
+      crmAttribute: {
+        key: 'asdf',
+      },
     };
 
     this._setAccount = this._setAccount.bind(this);
@@ -292,6 +294,268 @@ export default class Breakdown extends Component {
     }
   }
 
+  renderDonorAnalyzer({ data }) {
+    const {
+      entity,
+      nerdletUrlState: { pageUrl },
+      platformUrlState: {
+        timeRange: { duration },
+      },
+    } = this.props;
+
+    const durationInMinutes = duration / 1000 / 60;
+
+    const { showConfig, donationValue, crmAttribute } = this.state;
+
+    const results = buildResults(data.actor.account);
+
+    const { frustratedSessions } = data.actor.account;
+    const givingRisk = buildGivingRisk(frustratedSessions, donationValue);
+
+    const {
+      settings: { apdexTarget },
+      servingApmApplicationId,
+    } = entity;
+    const frustratedApdex = Math.round(apdexTarget * 4 * 10) / 10;
+    const browserSettingsUrl = `https://rpm.newrelic.com/accounts/${entity.accountId}/browser/${servingApmApplicationId}/edit#/settings`;
+    const apmService = get(data, 'actor.entity.relationships[0].source.entity');
+    if (apmService) {
+      apmService.iconType = getIconType(apmService);
+    }
+    return (
+      <>
+        <Grid className="breakdownContainer">
+          <GridItem columnSpan={12}>
+            <SummaryBar {...this.props} apmService={apmService} />
+          </GridItem>
+          <GridItem columnSpan={4} className="cohort satisfied">
+            <Icon
+              className="icon"
+              type={Icon.TYPE.PROFILES__EVENTS__LIKE}
+              color="green"
+            />
+            <h3 className="cohortTitle">Satisfied</h3>
+            <p className="cohortDescription">
+              <em>Satisfied</em> performance based on an{' '}
+              <a href={browserSettingsUrl} target="seldon">
+                apdex T of <em>{apdexTarget}</em>
+              </a>
+              .
+            </p>
+            <div className="cohortStats satisfiedStats">
+              <div className="cohortStat">
+                <span className="label">Sessions</span>
+                <span className="value">{results.satisfied.sessions}</span>
+              </div>
+              <div className="cohortStat">
+                <span className="label">Pgs / Session</span>
+                <span className="value">{results.satisfied.avgPageViews}</span>
+              </div>
+              <div className="cohortStat">
+                <span className="label">
+                  {!pageUrl ? 'Bounce Rate' : 'Exit Rate'}
+                </span>
+                <span className="value">
+                  {results.satisfied.bounceRate}%{!pageUrl ? '*' : ''}
+                </span>
+              </div>
+              <div className="cohortStat">
+                <span className="label">Avg. Session</span>
+                <span className="value">
+                  {results.satisfied.avgSessionLength}*
+                </span>
+              </div>
+              <div className="cohortWideSection">
+                <h5 className="sectionTitle">Load Times</h5>
+                <div className="cohortStat">
+                  <span className="label">Median</span>
+                  <span className="value">
+                    {results.satisfied.medianDuration}
+                  </span>
+                </div>
+                <div className="cohortStat">
+                  <span className="label">75th</span>
+                  <span className="value">{results.satisfied.duration75}</span>
+                </div>
+                <div className="cohortStat">
+                  <span className="label">95th</span>
+                  <span className="value">{results.satisfied.duration95}</span>
+                </div>
+                <div className="cohortStat">
+                  <span className="label">99th</span>
+                  <span className="value">{results.satisfied.duration99}</span>
+                </div>
+              </div>
+            </div>
+          </GridItem>
+          <GridItem columnSpan={4} className="cohort tolerated">
+            <Icon
+              className="icon"
+              sizeType={Icon.SIZE_TYPE.NORMAL}
+              type={Icon.TYPE.INTERFACE__STATE__WARNING}
+              color="#F5A020"
+            />
+            <h3 className="cohortTitle">Tolerated</h3>
+            <p className="cohortDescription">
+              <em>Tolerated</em> performance based on an{' '}
+              <a href={browserSettingsUrl} target="seldon">
+                apdex T of <em>{apdexTarget}</em>
+              </a>
+              .
+            </p>
+            <div className="cohortStats toleratedStats">
+              <div className="cohortStat">
+                <span className="label">Sessions</span>
+                <span className="value">{results.tolerated.sessions}</span>
+              </div>
+              <div className="cohortStat">
+                <span className="label">Pgs / Session</span>
+                <span className="value">{results.tolerated.avgPageViews}</span>
+              </div>
+              <div className="cohortStat">
+                <span className="label">
+                  {!pageUrl ? 'Bounce Rate' : 'Exit Rate'}
+                </span>
+                <span className="value">
+                  {results.tolerated.bounceRate}%{!pageUrl ? '*' : ''}
+                </span>
+              </div>
+              <div className="cohortStat">
+                <span className="label">Avg. Session</span>
+                <span className="value">
+                  {results.tolerated.avgSessionLength}*
+                </span>
+              </div>
+              <div className="cohortWideSection">
+                <h5 className="sectionTitle">Load Times</h5>
+                <div className="cohortStat">
+                  <span className="label">Median</span>
+                  <span className="value">
+                    {results.tolerated.medianDuration}
+                  </span>
+                </div>
+                <div className="cohortStat">
+                  <span className="label">75th</span>
+                  <span className="value">{results.tolerated.duration75}</span>
+                </div>
+                <div className="cohortStat">
+                  <span className="label">95th</span>
+                  <span className="value">{results.tolerated.duration95}</span>
+                </div>
+                <div className="cohortStat">
+                  <span className="label">99th</span>
+                  <span className="value">{results.tolerated.duration99}</span>
+                </div>
+              </div>
+            </div>
+          </GridItem>
+          <GridItem columnSpan={4} className="cohort frustrated">
+            <Icon
+              className="icon"
+              type={Icon.TYPE.INTERFACE__STATE__CRITICAL}
+              color="red"
+            />
+            <h3 className="cohortTitle">Frustrated</h3>
+            <p className="cohortDescription">
+              <em>Frustrated</em> performance based on an{' '}
+              <a href={browserSettingsUrl} target="seldon">
+                apdex T of <em>{apdexTarget}</em>
+              </a>
+              .
+            </p>
+            <div className="cohortStats frustratedStats">
+              <div className="cohortStat">
+                <span className="label">Sessions</span>
+                <span className="value">{results.frustrated.sessions}</span>
+              </div>
+              <div className="cohortStat">
+                <span className="label">Pgs / Session</span>
+                <span className="value">{results.frustrated.avgPageViews}</span>
+              </div>
+              <div className="cohortStat">
+                <span className="label">
+                  {!pageUrl ? 'Bounce Rate' : 'Exit Rate'}
+                </span>
+                <span className="value">
+                  {results.frustrated.bounceRate}%{!pageUrl ? '*' : ''}
+                </span>
+              </div>
+              <div className="cohortStat">
+                <span className="label">Avg. Session</span>
+                <span className="value">
+                  {results.frustrated.avgSessionLength}*
+                </span>
+              </div>
+              <div className="cohortWideSection">
+                <h5 className="sectionTitle">Load Times</h5>
+                <div className="cohortStat">
+                  <span className="label">Median</span>
+                  <span className="value">
+                    {results.frustrated.medianDuration}
+                  </span>
+                </div>
+                <div className="cohortStat">
+                  <span className="label">75th</span>
+                  <span className="value">{results.frustrated.duration75}</span>
+                </div>
+                <div className="cohortStat">
+                  <span className="label">95th</span>
+                  <span className="value">{results.frustrated.duration95}</span>
+                </div>
+                <div className="cohortStat">
+                  <span className="label">99th</span>
+                  <span className="value">{results.frustrated.duration99}</span>
+                </div>
+              </div>
+            </div>
+          </GridItem>
+          <BlockText className="cohortsSmallPrint">
+            * Note that these calculations are approximations based on a sample
+            of the total data in New Relic for this Browser application.
+          </BlockText>
+          {false ? null : (
+            <React.Fragment>
+              <GridItem className="pageUrlTable" columnSpan={8}>
+                <HeadingText type={HeadingText.TYPE.HEADING3}>
+                  Imapcted Donors
+                </HeadingText>
+                <TableChart
+                  className="tableChart"
+                  accountId={entity.accountId}
+                  fullheight
+                  fullwidth
+                  // eslint-disable-next-line prettier/prettier
+                        query={`FROM PageView SELECT  ${crmAttribute.key}, session, duration, deviceType, pageUrl  WHERE appName='${entity.name}' AND duration >= ${frustratedApdex} ${pageUrl ? `WHERE pageUrl = '${pageUrl}'` : ''} limit MAX SINCE ${durationInMinutes} MINUTES AGO`}
+                  onClickTable={(dataEl, row, chart) => {
+                    this._showDonor(row[`${crmAttribute.key}`]);
+                  }}
+                />
+              </GridItem>
+              <GridItem columnSpan={4} className="cohort improvement">
+                <Icon
+                  className="icon"
+                  type={Icon.TYPE.INTERFACE__STATE__WARNING}
+                  color="red"
+                />
+                <h3 className="cohortTitle">Frustrated Giving</h3>
+                <p className="cohortDescription">
+                  Based on an average donation of ${donationValue} and a
+                  Frustrated bounce rate of {results.frustrated.bounceRate}% the{' '}
+                  {results.frustrated.sessions} Frustrated sessions place.
+                </p>
+                <div className="cohortStats giving">
+                  <div className="givingRisk">
+                    <span className="label">Giving at Risk</span>
+                    <span className="value">${givingRisk.riskAmount}</span>
+                  </div>
+                </div>
+              </GridItem>
+            </React.Fragment>
+          )}
+        </Grid>
+      </>
+    );
+  }
   render() {
     const {
       entity,
@@ -300,6 +564,9 @@ export default class Breakdown extends Component {
         timeRange: { duration },
       },
     } = this.props;
+
+    const { showConfig, crmAttribute } = this.state;
+
     const durationInMinutes = duration / 1000 / 60;
     if (!entity) {
       //this shouldn't happen
@@ -332,26 +599,7 @@ export default class Breakdown extends Component {
             );
           }
           //debugger;
-          const results = buildResults(data.actor.account);
 
-          const { donationValue, crmAttribute } = this.state;
-          const { frustratedSessions } = data.actor.account;
-          const givingRisk = buildGivingRisk(frustratedSessions, donationValue);
-          const { showConfig } = this.state;
-
-          const {
-            settings: { apdexTarget },
-            servingApmApplicationId,
-          } = entity;
-          const frustratedApdex = Math.round(apdexTarget * 4 * 10) / 10;
-          const browserSettingsUrl = `https://rpm.newrelic.com/accounts/${entity.accountId}/browser/${servingApmApplicationId}/edit#/settings`;
-          const apmService = get(
-            data,
-            'actor.entity.relationships[0].source.entity'
-          );
-          if (apmService) {
-            apmService.iconType = getIconType(apmService);
-          }
           //console.debug("Data", [data, results]);
           return (
             <>
@@ -380,269 +628,7 @@ export default class Breakdown extends Component {
                   </Button>
                 </Modal>
               )}
-              <Grid className="breakdownContainer">
-                <GridItem columnSpan={12}>
-                  <SummaryBar {...this.props} apmService={apmService} />
-                </GridItem>
-                <GridItem columnSpan={4} className="cohort satisfied">
-                  <Icon
-                    className="icon"
-                    type={Icon.TYPE.PROFILES__EVENTS__LIKE}
-                    color="green"
-                  />
-                  <h3 className="cohortTitle">Satisfied</h3>
-                  <p className="cohortDescription">
-                    <em>Satisfied</em> performance based on an{' '}
-                    <a href={browserSettingsUrl} target="seldon">
-                      apdex T of <em>{apdexTarget}</em>
-                    </a>
-                    .
-                  </p>
-                  <div className="cohortStats satisfiedStats">
-                    <div className="cohortStat">
-                      <span className="label">Sessions</span>
-                      <span className="value">
-                        {results.satisfied.sessions}
-                      </span>
-                    </div>
-                    <div className="cohortStat">
-                      <span className="label">Pgs / Session</span>
-                      <span className="value">
-                        {results.satisfied.avgPageViews}
-                      </span>
-                    </div>
-                    <div className="cohortStat">
-                      <span className="label">
-                        {!pageUrl ? 'Bounce Rate' : 'Exit Rate'}
-                      </span>
-                      <span className="value">
-                        {results.satisfied.bounceRate}%{!pageUrl ? '*' : ''}
-                      </span>
-                    </div>
-                    <div className="cohortStat">
-                      <span className="label">Avg. Session</span>
-                      <span className="value">
-                        {results.satisfied.avgSessionLength}*
-                      </span>
-                    </div>
-                    <div className="cohortWideSection">
-                      <h5 className="sectionTitle">Load Times</h5>
-                      <div className="cohortStat">
-                        <span className="label">Median</span>
-                        <span className="value">
-                          {results.satisfied.medianDuration}
-                        </span>
-                      </div>
-                      <div className="cohortStat">
-                        <span className="label">75th</span>
-                        <span className="value">
-                          {results.satisfied.duration75}
-                        </span>
-                      </div>
-                      <div className="cohortStat">
-                        <span className="label">95th</span>
-                        <span className="value">
-                          {results.satisfied.duration95}
-                        </span>
-                      </div>
-                      <div className="cohortStat">
-                        <span className="label">99th</span>
-                        <span className="value">
-                          {results.satisfied.duration99}
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </GridItem>
-                <GridItem columnSpan={4} className="cohort tolerated">
-                  <Icon
-                    className="icon"
-                    sizeType={Icon.SIZE_TYPE.NORMAL}
-                    type={Icon.TYPE.INTERFACE__STATE__WARNING}
-                    color="#F5A020"
-                  />
-                  <h3 className="cohortTitle">Tolerated</h3>
-                  <p className="cohortDescription">
-                    <em>Tolerated</em> performance based on an{' '}
-                    <a href={browserSettingsUrl} target="seldon">
-                      apdex T of <em>{apdexTarget}</em>
-                    </a>
-                    .
-                  </p>
-                  <div className="cohortStats toleratedStats">
-                    <div className="cohortStat">
-                      <span className="label">Sessions</span>
-                      <span className="value">
-                        {results.tolerated.sessions}
-                      </span>
-                    </div>
-                    <div className="cohortStat">
-                      <span className="label">Pgs / Session</span>
-                      <span className="value">
-                        {results.tolerated.avgPageViews}
-                      </span>
-                    </div>
-                    <div className="cohortStat">
-                      <span className="label">
-                        {!pageUrl ? 'Bounce Rate' : 'Exit Rate'}
-                      </span>
-                      <span className="value">
-                        {results.tolerated.bounceRate}%{!pageUrl ? '*' : ''}
-                      </span>
-                    </div>
-                    <div className="cohortStat">
-                      <span className="label">Avg. Session</span>
-                      <span className="value">
-                        {results.tolerated.avgSessionLength}*
-                      </span>
-                    </div>
-                    <div className="cohortWideSection">
-                      <h5 className="sectionTitle">Load Times</h5>
-                      <div className="cohortStat">
-                        <span className="label">Median</span>
-                        <span className="value">
-                          {results.tolerated.medianDuration}
-                        </span>
-                      </div>
-                      <div className="cohortStat">
-                        <span className="label">75th</span>
-                        <span className="value">
-                          {results.tolerated.duration75}
-                        </span>
-                      </div>
-                      <div className="cohortStat">
-                        <span className="label">95th</span>
-                        <span className="value">
-                          {results.tolerated.duration95}
-                        </span>
-                      </div>
-                      <div className="cohortStat">
-                        <span className="label">99th</span>
-                        <span className="value">
-                          {results.tolerated.duration99}
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </GridItem>
-                <GridItem columnSpan={4} className="cohort frustrated">
-                  <Icon
-                    className="icon"
-                    type={Icon.TYPE.INTERFACE__STATE__CRITICAL}
-                    color="red"
-                  />
-                  <h3 className="cohortTitle">Frustrated</h3>
-                  <p className="cohortDescription">
-                    <em>Frustrated</em> performance based on an{' '}
-                    <a href={browserSettingsUrl} target="seldon">
-                      apdex T of <em>{apdexTarget}</em>
-                    </a>
-                    .
-                  </p>
-                  <div className="cohortStats frustratedStats">
-                    <div className="cohortStat">
-                      <span className="label">Sessions</span>
-                      <span className="value">
-                        {results.frustrated.sessions}
-                      </span>
-                    </div>
-                    <div className="cohortStat">
-                      <span className="label">Pgs / Session</span>
-                      <span className="value">
-                        {results.frustrated.avgPageViews}
-                      </span>
-                    </div>
-                    <div className="cohortStat">
-                      <span className="label">
-                        {!pageUrl ? 'Bounce Rate' : 'Exit Rate'}
-                      </span>
-                      <span className="value">
-                        {results.frustrated.bounceRate}%{!pageUrl ? '*' : ''}
-                      </span>
-                    </div>
-                    <div className="cohortStat">
-                      <span className="label">Avg. Session</span>
-                      <span className="value">
-                        {results.frustrated.avgSessionLength}*
-                      </span>
-                    </div>
-                    <div className="cohortWideSection">
-                      <h5 className="sectionTitle">Load Times</h5>
-                      <div className="cohortStat">
-                        <span className="label">Median</span>
-                        <span className="value">
-                          {results.frustrated.medianDuration}
-                        </span>
-                      </div>
-                      <div className="cohortStat">
-                        <span className="label">75th</span>
-                        <span className="value">
-                          {results.frustrated.duration75}
-                        </span>
-                      </div>
-                      <div className="cohortStat">
-                        <span className="label">95th</span>
-                        <span className="value">
-                          {results.frustrated.duration95}
-                        </span>
-                      </div>
-                      <div className="cohortStat">
-                        <span className="label">99th</span>
-                        <span className="value">
-                          {results.frustrated.duration99}
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </GridItem>
-                <BlockText className="cohortsSmallPrint">
-                  * Note that these calculations are approximations based on a
-                  sample of the total data in New Relic for this Browser
-                  application.
-                </BlockText>
-                {false ? null : (
-                  <React.Fragment>
-                    <GridItem className="pageUrlTable" columnSpan={8}>
-                      <HeadingText type={HeadingText.TYPE.HEADING3}>
-                        Imapcted Donors
-                      </HeadingText>
-                      <TableChart
-                        className="tableChart"
-                        accountId={entity.accountId}
-                        fullheight
-                        fullwidth
-                        // eslint-disable-next-line prettier/prettier
-                        query={`FROM PageView SELECT  ${crmAttribute.key}, session, duration, deviceType, pageUrl  WHERE appName='${entity.name}' AND duration >= ${frustratedApdex} ${pageUrl ? `WHERE pageUrl = '${pageUrl}'` : ''} limit MAX SINCE ${durationInMinutes} MINUTES AGO`}
-                        onClickTable={(dataEl, row, chart) => {
-                          this._showDonor(row[`${crmAttribute.key}`]);
-                        }}
-                      />
-                    </GridItem>
-                    <GridItem columnSpan={4} className="cohort improvement">
-                      <Icon
-                        className="icon"
-                        type={Icon.TYPE.INTERFACE__STATE__WARNING}
-                        color="red"
-                      />
-                      <h3 className="cohortTitle">Frustrated Giving</h3>
-                      <p className="cohortDescription">
-                        Based on an average donation of ${donationValue} and a
-                        Frustrated bounce rate of{' '}
-                        {results.frustrated.bounceRate}% the{' '}
-                        {results.frustrated.sessions} Frustrated sessions place.
-                      </p>
-                      <div className="cohortStats giving">
-                        <div className="givingRisk">
-                          <span className="label">Giving at Risk</span>
-                          <span className="value">
-                            ${givingRisk.riskAmount}
-                          </span>
-                        </div>
-                      </div>
-                    </GridItem>
-                  </React.Fragment>
-                )}
-              </Grid>
+              {crmAttribute !== null && this.renderDonorAnalyzer({ data })}
             </>
           );
         }}
