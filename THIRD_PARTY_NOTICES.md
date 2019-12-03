@@ -8,7 +8,7 @@ In the event that a required notice is missing or incorrect, please notify us
 by e-mailing [open-source@newrelic.com](mailto:open-source@newrelic.com).
 
 For any licenses that require the disclosure of source
-code, the source code can be found at [https://github.com/newrelic/nr1-browser-analyzer](https://github.com/newrelic/nr1-browser-analyzer).
+code, the source code can be found at [https://github.com/newrelic/nr1-donor-analyzer](https://github.com/newrelic/nr1-donor-analyzer).
 
 ## Content
 

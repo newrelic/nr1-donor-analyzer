@@ -1,15 +1,15 @@
 # nr1-donor-analyzer
 
-![GitHub release (latest SemVer including pre-releases)](https://img.shields.io/github/v/release/newrelic/nr1-browser-analyzer?include_prereleases&sort=semver) [![Snyk](https://snyk.io/test/github/newrelic/nr1-browser-analyzer/badge.svg)](https://snyk.io/test/github/newrelic/nr1-browser-analyzer)
+![GitHub release (latest SemVer including pre-releases)](https://img.shields.io/github/v/release/newrelic/nr1-donor-analyzer?include_prereleases&sort=semver) [![Snyk](https://snyk.io/test/github/newrelic/nr1-donor-analyzer/badge.svg)](https://snyk.io/test/github/newrelic/nr1-donor-analyzer)
 
 ## Usage
 
-nr1-browser-analyzer uses the `PageView` events in New Relic to interrogate and categorize the performance of a web site. You can explore the performance of individual pages, and forecast how improving performance impacts KPIs like bounce rate and traffic. This analysis is based on moving individual browsing sessions from `Tolerated` and `Frustrated` into `Satisfied` (as defined by the [`apdex`](https://docs.newrelic.com/docs/apm/new-relic-apm/apdex/apdex-measure-user-satisfaction) value for a given New Relic Browser application).
+nr1-donor-analyzer uses the `PageView` events in New Relic to interrogate and categorize the performance of a web site. You can explore the performance of individual pages, and forecast how improving performance impacts KPIs like bounce rate and traffic. This analysis is based on moving individual browsing sessions from `Tolerated` and `Frustrated` into `Satisfied` (as defined by the [`apdex`](https://docs.newrelic.com/docs/apm/new-relic-apm/apdex/apdex-measure-user-satisfaction) value for a given New Relic donor application).
 
 ![Screenshot #1](screenshots/screenshot_01.png)
 ![Screenshot #2](screenshots/screenshot_02.png)
 
-> Note that this NerdPack is not served as a launcher on the homepage of [New Relic One](https://one.newrelic.com). Instead, you'll have to navigate to a Browser app via the Entity Explorer in New Relic One.
+> Note that this NerdPack is not served as a launcher on the homepage of [New Relic One](https://one.newrelic.com). Instead, you'll have to navigate to a donor app via the Entity Explorer in New Relic One.
 
 ## Open Source License
 
@@ -34,8 +34,8 @@ Next, install the [NR1 CLI](https://one.newrelic.com/launcher/developer-center.l
 Next, to clone this repository and run the code locally against your New Relic data, execute the following command:
 
 ```bash
-nr1 nerdpack:clone -r https://github.com/newrelic/nr1-browser-analyzer.git
-cd nr1-browser-analyzer
+nr1 nerdpack:clone -r https://github.com/newrelic/nr1-donor-analyzer.git
+cd nr1-donor-analyzer
 nr1 nerdpack:serve
 ```
 
@@ -66,7 +66,7 @@ _Please do not report issues with this software to New Relic Global Technical Su
 
 New Relic hosts and moderates an online forum where customers can interact with New Relic employees as well as other customers to get help and share best practices. Like all official New Relic open source projects, there's a related Community topic in the New Relic Explorers Hub. You can find this project's topic/threads here:
 
-https://discuss.newrelic.com/t/browser-analyzer-nerdpack/82723
+https://discuss.newrelic.com/t/donor-analyzer-nerdpack/82723
 *(Note: URL subject to change before GA)*
 
 ## Issues / Enhancement Requests
