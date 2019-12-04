@@ -58,12 +58,10 @@ export default class Wrapper extends React.PureComponent {
                       return (
                         <div className="message">
                           <HeadingText>
-                            Site Analyzer is not available
+                            Donor Analyzer is not available
                           </HeadingText>
                           <BlockText>
-                            You have access to this entity, but Site Analyzer is
-                            not enabled for Browser entities in this account.
-                            Please see your Nerdpack Manager with concerns.
+                            You have access to this entity, but Donor Analyzer is not enabled for Browser entities in this account. Please see your Nerdpack Manager with concerns.
                           </BlockText>
                         </div>
                       );
