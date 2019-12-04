@@ -21,6 +21,7 @@ import DimensionPicker from './dimensionPicker';
 import SummaryBar from './summary-bar';
 import { get } from 'lodash';
 import { buildResults, buildGivingRisk } from './stat-utils';
+import numeral from 'numeral';
 
 function getIconType(apm) {
   if (apm.alertSeverity == 'NOT_ALERTING') {
@@ -529,7 +530,7 @@ export default class Breakdown extends Component {
             <React.Fragment>
               <GridItem className="pageUrlTable" columnSpan={8}>
                 <HeadingText type={HeadingText.TYPE.HEADING3}>
-                  Imapcted Donors
+                  Impacted Donors
                 </HeadingText>
                 <TableChart
                   className="tableChart"
@@ -567,7 +568,7 @@ export default class Breakdown extends Component {
                 <div className="cohortStats giving">
                   <div className="givingRisk">
                     <span className="label">Giving at Risk</span>
-                    <span className="value">${givingRisk.riskAmount}</span>
+                    <span className="value">${numeral(givingRisk.riskAmount).format("0,0")}</span>
                   </div>
                 </div>
               </GridItem>
