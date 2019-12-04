@@ -57,6 +57,7 @@ export default class Breakdown extends Component {
     this._setDonationValue = this._setDonationValue.bind(this);
     this._setDonorAnalyzer = this._setDonorAnalyzer.bind(this);
     this._showDonor = this._showDonor.bind(this);
+    this._showConfig = this._showConfig.bind(this);
   }
 
   async componentDidMount() {
@@ -76,7 +77,7 @@ export default class Breakdown extends Component {
             crmAttribute: crmAttr,
           });
         } else {
-          this.setState({ showConfig: true });
+          this._showConfig();
         }
       })
       .catch(err => {
@@ -210,6 +211,10 @@ export default class Breakdown extends Component {
     });
   }
 
+  _showConfig() {
+    this.setState({ showConfig: true });
+  }
+
   _setDimension(dimension) {
     this.setState({ dimension });
   }
@@ -225,6 +230,15 @@ export default class Breakdown extends Component {
   _setDonorAnalyzer() {
     const { entity } = this.props;
     const { donationValue, crmAttribute } = this.state;
+
+    if (isNaN(donationValue) || donationValue < 0 || crmAttribute == null) {
+      Toast.showToast({
+        title: 'Please reconfigure your app',
+        description: '',
+        type: Toast.TYPE.CRITICAL,
+      });
+      return false;
+    }
 
     EntityStorageMutation.mutate({
       entityGuid: entity.guid,
@@ -528,6 +542,15 @@ export default class Breakdown extends Component {
                     this._showDonor(row[`${crmAttribute.key}`]);
                   }}
                 />
+                <Button
+                  className="apmButton"
+                  type={Button.TYPE.NORMAL}
+                  sizeType={Button.SIZE_TYPE.SLIM}
+                  onClick={this._showConfig}
+                  iconType={apmService.iconType}
+                >
+                  Edit Settings
+                </Button>
               </GridItem>
               <GridItem columnSpan={4} className="cohort improvement">
                 <Icon

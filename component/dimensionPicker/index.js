@@ -12,15 +12,6 @@ export default class DimensionPicker extends React.Component {
   }
 
   componentDidMount(prevProps) {
-    // if (
-    //   prevProps.account !== this.props.account ||
-    //   prevProps.attribute !== this.props.attribute ||
-    //   prevProps.eventType !== this.props.eventType ||
-    //   prevProps.filterWhere !== this.props.filterWhere
-    // ) {
-    //   console.log('load called')
-    //   this.loadDimensions();
-    // }
     this.loadDimensions();
   }
 
