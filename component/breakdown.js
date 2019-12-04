@@ -47,7 +47,9 @@ export default class Breakdown extends Component {
       showConfig: false,
       eventType: 'PageView',
       donationValue: '',
-      crmAttribute: null,
+      crmAttribute: {
+        key: 'asdf',
+      },
     };
 
     this._setAccount = this._setAccount.bind(this);
@@ -57,7 +59,6 @@ export default class Breakdown extends Component {
     this._setDonationValue = this._setDonationValue.bind(this);
     this._setDonorAnalyzer = this._setDonorAnalyzer.bind(this);
     this._showDonor = this._showDonor.bind(this);
-    this._showConfig = this._showConfig.bind(this);
   }
 
   async componentDidMount() {
@@ -77,7 +78,7 @@ export default class Breakdown extends Component {
             crmAttribute: crmAttr,
           });
         } else {
-          this._showConfig();
+          this.setState({ showConfig: true });
         }
       })
       .catch(err => {
@@ -211,10 +212,6 @@ export default class Breakdown extends Component {
     });
   }
 
-  _showConfig() {
-    this.setState({ showConfig: true });
-  }
-
   _setDimension(dimension) {
     this.setState({ dimension });
   }
@@ -261,7 +258,7 @@ export default class Breakdown extends Component {
   }
 
   _showDonor(data) {
-    window.open(`http://google.com/${data}`, '_blank');
+    window.open(`https://newrelic.my.salesforce.com/${data}`, '_blank');
   }
 
   async loadEntity() {
@@ -546,7 +543,9 @@ export default class Breakdown extends Component {
                   className="apmButton"
                   type={Button.TYPE.NORMAL}
                   sizeType={Button.SIZE_TYPE.SLIM}
-                  onClick={this._showConfig}
+                  onClick={() => {
+                    this.setState({ showConfig: true });
+                  }}
                   iconType={apmService.iconType}
                 >
                   Edit Settings
