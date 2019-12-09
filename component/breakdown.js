@@ -22,6 +22,7 @@ import SummaryBar from './summary-bar';
 import { get } from 'lodash';
 import { buildResults, buildGivingRisk } from './stat-utils';
 import numeral from 'numeral';
+import { saveAs } from 'file-saver';
 
 function getIconType(apm) {
   if (apm.alertSeverity == 'NOT_ALERTING') {
@@ -307,6 +308,42 @@ export default class Breakdown extends Component {
     }
   }
 
+  // TO DO's
+  // - change to data.frustrated
+  // - add appropriate SF headers
+  async downloadFrustrated() {
+    const {
+      platformUrlState: {
+        timeRange: { duration },
+      },
+    } = this.props;
+
+    const durationInMinutes = duration / 1000 / 60;
+    const query = this.getQuery({ durationInMinutes });
+    const results = await NerdGraphQuery.query({ query });
+    const data = results.data.actor.account.satisfied.results;
+    const formattedData =
+      '"facet", "count", "session", "sessionLength"\n' +
+      data
+        .map(r => {
+          return (
+            '"' +
+            [r.facet, r.count, r.session, r.sessionLength].join('","') +
+            '"'
+          );
+        })
+        .join('\n');
+
+    var blob = new Blob([formattedData], {
+      // type: 'application/json;charset=utf-8',
+      type: 'application/csv;charset=utf-8',
+      autoBom: true,
+    });
+
+    const fileName = Date.now() + '-' + 'frustrated-constituents.csv';
+    saveAs(blob, fileName);
+  }
+
   renderDonorAnalyzer({ data }) {
     const {
       entity,
@@ -335,6 +372,7 @@ export default class Breakdown extends Component {
     if (apmService) {
       apmService.iconType = getIconType(apmService);
     }
+
     return (
       <>
         <Grid className="breakdownContainer">
@@ -568,9 +606,14 @@ export default class Breakdown extends Component {
                 <div className="cohortStats giving">
                   <div className="givingRisk">
                     <span className="label">Giving at Risk</span>
-                    <span className="value">${numeral(givingRisk.riskAmount).format("0,0")}</span>
+                    <span className="value">
+                      ${numeral(givingRisk.riskAmount).format('0,0')}
+                    </span>
                   </div>
                 </div>
+                <Button onClick={() => this.downloadFrustrated()}>
+                  Download Frustrated Constituents
+                </Button>
               </GridItem>
             </React.Fragment>
           )}
