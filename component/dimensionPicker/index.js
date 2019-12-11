@@ -26,9 +26,6 @@ export default class DimensionPicker extends React.Component {
     if (entity && entity.domain == 'INFRA') {
       whereClause.push(`entityGuid = '${entity.guid}'`);
     }
-    // else if (entity) {
-    //   whereClause.push(`appId = ${entity.applicationId}`);
-    // }
     if (filterWhere) whereClause.push(`${filterWhere}`);
 
     const nrql = `SELECT ${select} FROM ${quote(
@@ -40,49 +37,17 @@ export default class DimensionPicker extends React.Component {
 
   async loadDimensions() {
     const { account } = this.props;
-    const dimensions = [];
-    const attributes = [];
 
     this.setState({ dimensions: null });
     if (!this.props.eventType) return;
 
     // get all of the available string attributes
     let results = await nrdbQuery(account.id, this.getNrql('keySet()'));
-    // const keys = results
-    //   .filter(d => d.type == 'string' && d.key !== 'metricName')
-    //   .map(d => {
-    //     return { name: d.key };
-    //   });
-
-    // const BATCH_SIZE = 50;
-    // for (var i = 0; i < keys.length; i += BATCH_SIZE) {
-    //   const batch = keys.slice(i, i + BATCH_SIZE);
-
-    //    get the # of unique values for each string attribute
-    //   const select = batch.map(d => `uniqueCount(${quote(d.name)})`);
-    //   results = await nrdbQuery(account.id, this.getNrql(select));
-    //   batch.forEach(d => {
-    //     d.count = results[0][`uniqueCount.${d.name}`];
-
-    //     if (d.count == 1) attributes.push(d);
-    //     if (d.count > 1) dimensions.push(d);
-    //   });
-    // }
-
-    // get the attribute values
-    // if (attributes.length > 0) {
-    //   const select = attributes.map(d => `latest(${quote(d.name)})`).join(', ');
-    //   const attributeValues = await nrdbQuery(account.id, this.getNrql(select));
-    //   attributes.forEach(d => {
-    //     d.latest = attributeValues[0][`latest.${d.name}`];
-    //   });
-    // }
     this.setState({ attributes: results });
   }
 
   renderAttributesTable() {
     const { attributes } = this.state;
-    const { selectAttribute } = this.props;
     if (!attributes) return <div />;
 
     return (
@@ -106,7 +71,6 @@ export default class DimensionPicker extends React.Component {
   }
 
   render() {
-    const { attribute } = this.props;
     return <div>{this.renderAttributesTable()}</div>;
   }
 }

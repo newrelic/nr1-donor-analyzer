@@ -309,8 +309,6 @@ export default class Breakdown extends Component {
   }
 
   // TO DO's
-  // - change to data.frustrated
-  // - add appropriate SF headers
   async downloadFrustrated() {
     const {
       platformUrlState: {
@@ -667,7 +665,6 @@ export default class Breakdown extends Component {
             );
           }
           //debugger;
-
           //console.debug("Data", [data, results]);
           return (
             <>

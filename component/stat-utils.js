@@ -85,30 +85,7 @@ export function buildGivingRisk(frustratedSessions, avgDonation) {
     frustratedSessions.results.length *
     0.9
   ).toFixed(2);
-  const metadata = {
-    id: 'impacted-donors',
-    label: 'Impacted Donors',
-    color: '#CC00BB',
-    viz: 'main',
-  };
-  const data = [...frustratedSessions.results];
-  const impactedDonors = [
-    {
-      metadata,
-      data,
-    },
-  ];
-  const obj = Object.assign(
-    {},
-    frustratedSessions,
-    {
-      impactedDonors,
-    },
-    {
-      riskAmount,
-    }
-  );
-  return obj;
+  return riskAmount;
 }
 
 function fillObject(obj, sample, cohort, bounceCohort) {
