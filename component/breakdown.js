@@ -119,6 +119,7 @@ export default class Breakdown extends Component {
       entity,
       nerdletUrlState: { pageUrl },
     } = this.props;
+    const { crmAttribute } = this.state;
     const apdexTarget = entity.settings.apdexTarget || 0.5; // TO DO - Should we set a default value?
     const frustratedApdex = Math.round(apdexTarget * 4 * 10) / 10;
     const facetCase = `FACET CASES( WHERE duration <= ${apdexTarget} AS 'S', WHERE duration > ${apdexTarget} AND duration < ${frustratedApdex} AS 'T', WHERE duration >= ${frustratedApdex} AS 'F')`;
@@ -166,9 +167,11 @@ export default class Breakdown extends Component {
     } FACET session limit MAX SINCE ${durationInMinutes} MINUTES AGO") {
             results
           }
-          frustratedSessions: nrql(query: "FROM PageView SELECT * WHERE appName='${
-            entity.name
-          }' AND duration >= ${frustratedApdex} ${
+          frustratedSessions: nrql(query: "FROM PageView SELECT ${
+            crmAttribute.key
+          }, session, duration, deviceType WHERE appName='${
+      entity.name
+    }' AND duration >= ${frustratedApdex} ${
       pageUrl ? `WHERE pageUrl = '${pageUrl}'` : ''
     } limit MAX SINCE ${durationInMinutes} MINUTES AGO"){
             results
@@ -314,18 +317,19 @@ export default class Breakdown extends Component {
         timeRange: { duration },
       },
     } = this.props;
+    const { crmAttribute } = this.state;
 
     const durationInMinutes = duration / 1000 / 60;
     const query = this.getQuery({ durationInMinutes });
     const results = await NerdGraphQuery.query({ query });
-    const data = results.data.actor.account.satisfied.results;
+    const data = results.data.actor.account.frustratedSessions.results;
     const formattedData =
-      '"facet", "count", "session", "sessionLength"\n' +
+      `"${crmAttribute.key}", "session", "duration", "deviceType"\n` +
       data
         .map(r => {
           return (
             '"' +
-            [r.facet, r.count, r.session, r.sessionLength].join('","') +
+            [r[crmAttribute.key], r.session, r.duration, r.deviceType].join('","') +
             '"'
           );
         })
@@ -606,7 +610,7 @@ export default class Breakdown extends Component {
                   <div className="givingRisk">
                     <span className="label">Giving at Risk</span>
                     <span className="value">
-                      ${numeral(givingRisk.riskAmount).format('0,0')}
+                      ${numeral(givingRisk).format('0,0')}
                     </span>
                   </div>
                 </div>
