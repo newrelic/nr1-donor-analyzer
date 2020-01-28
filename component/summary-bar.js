@@ -68,7 +68,7 @@ export default class SummaryBar extends Component {
           <StackItem className="wider">
               <SparklineChart className="microchart wider" accountId={accountId} query={`FROM PageView SELECT average(backendDuration) TIMESERIES SINCE ${durationInMinutes} MINUTES AGO WHERE appName = '${name}' ${pageUrl ? `WHERE pageUrl = '${pageUrl}'` : ''}`}/>
           </StackItem>
-    <StackItem grow className="summaryEnd">{apmService && <Button className="apmButton" type={Button.TYPE.NORMAL} sizeType={Button.SIZE_TYPE.SLIM} onClick={() => { navigation.openStackedEntity(apmService.guid); }} iconType={apmService.iconType}>Upstream Service</Button>}</StackItem>
+    <StackItem grow className="summaryEnd">{apmService && <Button className="apmButton" type={Button.TYPE.NORMAL} sizeType={Button.SIZE_TYPE.SLIM} onClick={() => { navigation.openStackedEntity(apmService.guid); }} iconType={apmService ? apmService.renderDonorAnalyzer : null}>Upstream Service</Button>}</StackItem>
         </Stack>
       </ChartGroup>
     )

@@ -587,7 +587,7 @@ export default class Breakdown extends Component {
                   onClick={() => {
                     this.setState({ showConfig: true });
                   }}
-                  iconType={apmService.iconType}
+                  iconType={apmService ? apmService.iconType : null}
                 >
                   Edit Settings
                 </Button>
