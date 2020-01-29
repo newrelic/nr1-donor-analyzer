@@ -327,7 +327,9 @@ export default class Breakdown extends Component {
         .map(r => {
           return (
             '"' +
-            [r[crmAttribute.key], r.session, r.duration, r.deviceType].join('","') +
+            [r[crmAttribute.key], r.session, r.duration, r.deviceType].join(
+              '","'
+            ) +
             '"'
           );
         })
@@ -580,17 +582,6 @@ export default class Breakdown extends Component {
                     this._showDonor(row[`${crmAttribute.key}`]);
                   }}
                 />
-                <Button
-                  className="apmButton"
-                  type={Button.TYPE.NORMAL}
-                  sizeType={Button.SIZE_TYPE.SLIM}
-                  onClick={() => {
-                    this.setState({ showConfig: true });
-                  }}
-                  iconType={apmService ? apmService.iconType : null}
-                >
-                  Edit Settings
-                </Button>
               </GridItem>
               <GridItem columnSpan={4} className="cohort improvement">
                 <Icon
@@ -612,9 +603,36 @@ export default class Breakdown extends Component {
                     </span>
                   </div>
                 </div>
-                <Button onClick={() => this.downloadFrustrated()}>
-                  Download Frustrated Constituents
-                </Button>
+                <Grid spacingType={[Grid.SPACING_TYPE.NONE]}>
+                  <GridItem columnSpan={7} collapseGapAfter>
+                    <Button
+                      type={Button.TYPE.PRIMARY}
+                      sizeType={Button.SIZE_TYPE.LARGE}
+                      iconType={
+                        Button.ICON_TYPE.INTERFACE__OPERATIONS__DOWNLOAD
+                      }
+                      onClick={() => this.downloadFrustrated()}
+                    >
+                      Download Frustrated Visitors
+                    </Button>
+                  </GridItem>
+                  <GridItem columnSpan={5}>
+                    <Button
+                      // className="apmButton"
+                      type={Button.TYPE.PLAIN_NEUTRAL}
+                      sizeType={Button.SIZE_TYPE.LARGE}
+                      iconType={
+                        Button.ICON_TYPE.INTERFACE__OPERATIONS__CONFIGURE
+                      }
+                      onClick={() => {
+                        this.setState({ showConfig: true });
+                      }}
+                      // iconType={apmService ? apmService.iconType : null}
+                    >
+                      Edit Settings
+                    </Button>
+                  </GridItem>
+                </Grid>
               </GridItem>
             </React.Fragment>
           )}
