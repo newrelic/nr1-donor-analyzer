@@ -17,12 +17,14 @@ import {
   Toast,
   TextField,
 } from 'nr1';
-import DimensionPicker from './dimensionPicker';
-import SummaryBar from './summary-bar';
 import { get } from 'lodash';
-import { buildResults, buildGivingRisk } from './stat-utils';
 import numeral from 'numeral';
 import { saveAs } from 'file-saver';
+import DimensionPicker from './dimensionPicker';
+import SummaryBar from './summary-bar';
+import { buildResults, buildGivingRisk } from './stat-utils';
+import { getCrmConfig } from '../nerdlets/crmConfig';
+
 
 function getIconType(apm) {
   if (apm.alertSeverity == 'NOT_ALERTING') {
@@ -263,7 +265,8 @@ export default class Breakdown extends Component {
   }
 
   _showDonor(data) {
-    window.open(`https://newrelic.my.salesforce.com/${data}`, '_blank');
+    const crmUrl = getCrmConfig();
+    window.open(`${crmUrl.url}/${data}`, '_blank');
   }
 
   async loadEntity() {
