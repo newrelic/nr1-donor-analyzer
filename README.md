@@ -4,10 +4,32 @@
 
 ## Usage
 
-nr1-donor-analyzer uses the `PageView` events in New Relic to interrogate and categorize the performance of a web site. You can explore the performance of individual pages, and forecast how improving performance impacts KPIs like bounce rate and traffic. This analysis is based on moving individual browsing sessions from `Tolerated` and `Frustrated` into `Satisfied` (as defined by the [`apdex`](https://docs.newrelic.com/docs/apm/new-relic-apm/apdex/apdex-measure-user-satisfaction) value for a given New Relic donor application).
-
+The intention of Donor Analyzer is to view the impact site performance has on donor behavior over a period of time. User can view nr1-donor-analyzer uses the `PageView` events in New Relic to interrogate and categorize the performance of a web site and associated sessions for a user determined timeslice. You can explore the performance of individual pages, and forecast how improving performance impacts KPIs like bounce rate and traffic. This analysis is based on moving individual browsing sessions from `Tolerated` and `Frustrated` into `Satisfied` (as defined by the [`apdex`](https://docs.newrelic.com/docs/apm/new-relic-apm/apdex/apdex-measure-user-satisfaction) value for a given New Relic donor application).  
 ![Donor Analyzer Overview](screenshots/donor-analyzer-overview.png)
+### Impacted Donors
 ![Impacted Donor Details](screenshots/impacted-donors-details.png)
+ - This table shows individual session data for sessions in the selected timeslice that were marked as `Frusterated`. 
+ - Columns can be sorted accending or decending
+
+### Frustrated Giving
+Frustrated Giving shows the estimated dollar value of giving that is put at risk through sessions marked as frusterated in the following formula
+ 
+ Number of `Frustrated` sessions * average donation * .9 = Furstrated Giving. 
+ 
+
+### Configuration & Set Up
+The Donor Analyzer can be set up to consume a unique CRM ID passed as a custom attribute through the [`Browser Agent`](https://docs.newrelic.com/docs/browser/new-relic-browser/browser-agent-spa-api/set-custom-attribute). You can then configure which attribute to display in the Impacted Donor table using the Edit Settings gear under the Frustrated Giving Section. 
+
+#### Average Donation
+By clicking the Edit Settings, the Average Donation amount can be edited. This number is designed to represent the value of the average giving transaction on your website. 
+
+#### Salesforce Link Support
+Donor Analyzer supports linking of your custom CRM attribute to your unique Salesforce instance. When configured, it turns the cofigured CRM attribute into a live link to the donor's CRM profile. 
+You can configure up your organization's Salesforce.com URL by editing the `url:` in  `crmConfig.js` 
+```const crmConfig = {
+  url: '<REPLACE ME WITH YOUR SALEFORCE CRM URL>',
+  };
+```
 
 > Note that this NerdPack is not served as a launcher on the homepage of [New Relic One](https://one.newrelic.com). Instead, you'll have to navigate to a donor app via the Entity Explorer in New Relic One.
 
@@ -78,3 +100,4 @@ Issues and enhancement requests can be submitted in the [Issues tab of this repo
 Contributions are welcome (and if you submit a Enhancement Request, expect to be invited to contribute it yourself :grin:). Please review our [Contributors Guide](CONTRIBUTING.md).
 
 Keep in mind that when you submit your pull request, you'll need to sign the CLA via the click-through using CLA-Assistant. If you'd like to execute our corporate CLA, or if you have any questions, please drop us an email at opensource@newrelic.com.
+
