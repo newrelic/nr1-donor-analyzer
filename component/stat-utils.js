@@ -79,11 +79,10 @@ function buildFrustrated(cohorts, frustrated, bounceRate) {
   return obj;
 }
 
-export function buildGivingRisk(frustratedSessions, avgDonation) {
+export function buildGivingRisk(frustratedSessions, avgDonation, bounceRate) {
   const riskAmount = (
     avgDonation *
-    frustratedSessions.results.length *
-    0.9
+    (frustratedSessions * (bounceRate / 100))
   ).toFixed(2);
   return riskAmount;
 }

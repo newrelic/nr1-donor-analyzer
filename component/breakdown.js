@@ -25,7 +25,6 @@ import SummaryBar from './summary-bar';
 import { buildResults, buildGivingRisk } from './stat-utils';
 import { getCrmConfig } from '../nerdlets/crmConfig';
 
-
 function getIconType(apm) {
   if (apm.alertSeverity == 'NOT_ALERTING') {
     return Button.ICON_TYPE.HARDWARE_AND_SOFTWARE__SOFTWARE__SERVICE__S_OK;
@@ -363,8 +362,11 @@ export default class Breakdown extends Component {
 
     const results = buildResults(data.actor.account);
 
-    const { frustratedSessions } = data.actor.account;
-    const givingRisk = buildGivingRisk(frustratedSessions, donationValue);
+    const givingRisk = buildGivingRisk(
+      results.frustrated.sessions,
+      donationValue,
+      results.frustrated.bounceRate
+    );
 
     const {
       settings: { apdexTarget },
