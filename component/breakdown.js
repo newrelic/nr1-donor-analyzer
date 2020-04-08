@@ -16,6 +16,8 @@ import {
   Button,
   Toast,
   TextField,
+  Select,
+  SelectItem,
 } from 'nr1';
 import { get } from 'lodash';
 import numeral from 'numeral';
@@ -23,7 +25,6 @@ import { saveAs } from 'file-saver';
 import DimensionPicker from './dimensionPicker';
 import SummaryBar from './summary-bar';
 import { buildResults, buildGivingRisk } from './stat-utils';
-import { getCrmConfig } from '../nerdlets/crmConfig';
 
 function getIconType(apm) {
   if (apm.alertSeverity == 'NOT_ALERTING') {
@@ -50,6 +51,8 @@ export default class Breakdown extends Component {
       showConfig: false,
       eventType: 'PageView',
       donationValue: '',
+      crm: null,
+      domain: '',
       crmAttribute: {
         key: 'asdf',
       },
@@ -62,29 +65,32 @@ export default class Breakdown extends Component {
     this._setDonationValue = this._setDonationValue.bind(this);
     this._setDonorAnalyzer = this._setDonorAnalyzer.bind(this);
     this._showDonor = this._showDonor.bind(this);
+    this._handleCrmSelect = this._handleCrmSelect.bind(this);
+    this._setDomain = this._setDomain.bind(this);
   }
 
   async componentDidMount() {
-    const { entity } = this.props;
     const { entityGuid } = this.props.nerdletUrlState;
 
-    // console.log(entity);
     EntityStorageQuery.query({
-      entityGuid: entity.guid,
+      entityGuid: entityGuid,
       collection: 'donor-analyzer-db',
     })
       .then(res => {
         if (Array.isArray(res.data) && res.data.length) {
-          const { crmAttr, value } = res.data[0].document;
+          const { crmAttr, value, crm, domain } = res.data[0].document;
           this.setState({
             donationValue: value,
             crmAttribute: crmAttr,
+            crm: crm,
+            domain: domain,
           });
         } else {
           this.setState({ showConfig: true });
         }
       })
       .catch(err => {
+        console.log(err);
         Toast.showToast({
           title: 'Unable to fetch data',
           description: err.message || '',
@@ -102,6 +108,19 @@ export default class Breakdown extends Component {
       const account = accounts.length > 0 && accounts[0];
       this.setState({ accounts, account });
     }
+  }
+
+  _getCrmList() {
+    return [
+      {
+        name: 'SalesForce',
+        url: `https://${this.state.domain}.my.salesforce.com`,
+      },
+      {
+        name: 'HubSpot',
+        url: `https://hubspot.com/${this.state.domain}`,
+      },
+    ];
   }
 
   _openDetails(pageUrl) {
@@ -232,7 +251,8 @@ export default class Breakdown extends Component {
 
   _setDonorAnalyzer() {
     const { entity } = this.props;
-    const { donationValue, crmAttribute } = this.state;
+    const { donationValue, crmAttribute, crm, domain } = this.state;
+    console.log(donationValue, crmAttribute, crm, domain);
 
     if (isNaN(donationValue) || donationValue < 0 || crmAttribute == null) {
       Toast.showToast({
@@ -251,10 +271,13 @@ export default class Breakdown extends Component {
       document: {
         value: donationValue,
         crmAttr: crmAttribute,
+        crm: crm,
+        domain: domain,
       },
     })
       .then(() => this.setState({ showConfig: false }))
       .catch(err => {
+        console.log(err)
         Toast.showToast({
           title: 'Unable to save settings',
           description: err.message || '',
@@ -264,8 +287,50 @@ export default class Breakdown extends Component {
   }
 
   _showDonor(data) {
-    const crmUrl = getCrmConfig();
-    window.open(`${crmUrl.url}/${data}`, '_blank');
+    const { crm, domain } = this.state;
+    if (!crm || !domain) {
+      Toast.showToast({
+        title: 'Please configure your CRM URL in Settings',
+        type: Toast.TYPE.CRITICAL,
+        sticky: true,
+      });
+      return null;
+    }
+
+    window.open(`${crm.url}/${data}`, '_blank');
+  }
+
+  _handleCrmSelect(event, value) {
+    this.setState({ crm: value });
+  }
+
+  _updateCrmUrl(domain) {
+    const crmList = this._getCrmList();
+    const { crm } = this.state;
+    console.log(crmList, crm, domain);
+
+    // loop through list of CRMs looking for match
+    // if list match selected crm, update state crm value
+    for (const key in crmList) {
+      if (crm.name === crmList[key].name) {
+        console.log('match', crm, crmList[key]);
+        this.setState(prevState => ({
+          crm: {
+            ...prevState.crm,
+            url: crmList[key].url,
+          },
+        }));
+      }
+    }
+  }
+
+  _setDomain(value) {
+    this.setState(
+      {
+        domain: value,
+      },
+      value => this._updateCrmUrl(value)
+    );
   }
 
   async loadEntity() {
@@ -310,7 +375,6 @@ export default class Breakdown extends Component {
     }
   }
 
-  // TO DO's
   async downloadFrustrated() {
     const {
       platformUrlState: {
@@ -645,6 +709,7 @@ export default class Breakdown extends Component {
       </>
     );
   }
+
   render() {
     const {
       entity,
@@ -653,10 +718,10 @@ export default class Breakdown extends Component {
         timeRange: { duration },
       },
     } = this.props;
-
-    const { showConfig, crmAttribute } = this.state;
-
+    const { showConfig, crmAttribute, domain } = this.state;
     const durationInMinutes = duration / 1000 / 60;
+    const crmList = this._getCrmList();
+
     if (!entity) {
       //this shouldn't happen
       return <Spinner fillContainer />;
@@ -694,6 +759,30 @@ export default class Breakdown extends Component {
               {showConfig && (
                 <Modal onClose={() => this.setState({ showConfig: false })}>
                   <HeadingText>Donor Analyzer Setup</HeadingText>
+                  <Select
+                    onChange={this._handleCrmSelect}
+                    value={this.state.crm}
+                    label="Please select your CRM"
+                  >
+                    <SelectItem>Select your crm</SelectItem>
+                    {crmList.map(crm => (
+                      <SelectItem key={crm.name} value={crm}>
+                        {crm.name}
+                      </SelectItem>
+                    ))}
+                  </Select>
+                  {this.state.crm && (
+                    <div>
+                      <TextField
+                        label="Please specify your domain"
+                        spacingType={[TextField.SPACING_TYPE.MEDIUM]}
+                        placeholder="Please enter your domain"
+                        value={this.state.domain}
+                        onChange={e => this._setDomain(e.target.value)}
+                      />
+                      <div>{this.state.crm.url}</div>
+                    </div>
+                  )}
                   <TextField
                     label="Please enter your average donation amount."
                     spacingType={[TextField.SPACING_TYPE.MEDIUM]}
