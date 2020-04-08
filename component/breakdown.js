@@ -254,7 +254,13 @@ export default class Breakdown extends Component {
     const { donationValue, crmAttribute, crm, domain } = this.state;
     console.log(donationValue, crmAttribute, crm, domain);
 
-    if (isNaN(donationValue) || donationValue < 0 || crmAttribute == null) {
+    if (
+      isNaN(donationValue) ||
+      donationValue < 0 ||
+      crmAttribute == null ||
+      crm == null ||
+      domain == ''
+    ) {
       Toast.showToast({
         title: 'Please reconfigure your app',
         description: '',
@@ -277,7 +283,7 @@ export default class Breakdown extends Component {
     })
       .then(() => this.setState({ showConfig: false }))
       .catch(err => {
-        console.log(err)
+        console.log(err);
         Toast.showToast({
           title: 'Unable to save settings',
           description: err.message || '',
