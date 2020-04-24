@@ -4,28 +4,28 @@
 
 ## Usage
 
-The intention of Donor Analyzer is to view the impact site performance has on donor behavior over a period of time. User can view nr1-donor-analyzer uses the `PageView` events in New Relic to interrogate and categorize the performance of a web site and associated sessions for a user determined timeslice. You can explore the performance of individual pages, and forecast how improving performance impacts KPIs like bounce rate and traffic. This analysis is based on moving individual browsing sessions from `Tolerated` and `Frustrated` into `Satisfied` (as defined by the [`apdex`](https://docs.newrelic.com/docs/apm/new-relic-apm/apdex/apdex-measure-user-satisfaction) value for a given New Relic donor application).  
+The intention of Donor Analyzer is to view the impact site performance has on donor behavior over a period of time. User can view nr1-donor-analyzer uses the `PageView` events in New Relic to interrogate and categorize the performance of a web site and associated sessions for a user determined timeslice. You can explore the performance of individual pages, and forecast how improving performance impacts KPIs like bounce rate and traffic. This analysis is based on moving individual browsing sessions from `Tolerated` and `Frustrated` into `Satisfied` (as defined by the [`apdex`](https://docs.newrelic.com/docs/apm/new-relic-apm/apdex/apdex-measure-user-satisfaction) value for a given New Relic donor application).
 ![Donor Analyzer Overview](screenshots/donor-analyzer-overview.png)
 ### Impacted Donors
 ![Impacted Donor Details](screenshots/impacted-donors-details.png)
- - This table shows individual session data for sessions in the selected timeslice that were marked as `Frusterated`. 
+ - This table shows individual session data for sessions in the selected timeslice that were marked as `Frusterated`.
  - Columns can be sorted accending or decending
 
 ### Frustrated Giving
 Frustrated Giving shows the estimated dollar value of giving that is put at risk through sessions marked as frusterated in the following formula
- 
- Number of `Frustrated` sessions * average donation * .9 = Furstrated Giving. 
- 
+
+ Number of `Frustrated` sessions * average donation * .9 = Furstrated Giving.
+
 
 ### Configuration & Set Up
-The Donor Analyzer can be set up to consume a unique CRM ID passed as a custom attribute through the [`Browser Agent`](https://docs.newrelic.com/docs/browser/new-relic-browser/browser-agent-spa-api/set-custom-attribute). You can then configure which attribute to display in the Impacted Donor table using the Edit Settings gear under the Frustrated Giving Section. 
+The Donor Analyzer can be set up to consume a unique CRM ID passed as a custom attribute through the [`Browser Agent`](https://docs.newrelic.com/docs/browser/new-relic-browser/browser-agent-spa-api/set-custom-attribute). You can then configure which attribute to display in the Impacted Donor table using the Edit Settings gear under the Frustrated Giving Section.
 
 #### Average Donation
-By clicking the Edit Settings, the Average Donation amount can be edited. This number is designed to represent the value of the average giving transaction on your website. 
+By clicking the Edit Settings, the Average Donation amount can be edited. This number is designed to represent the value of the average giving transaction on your website.
 
 #### Salesforce Link Support
-Donor Analyzer supports linking of your custom CRM attribute to your unique Salesforce instance. When configured, it turns the cofigured CRM attribute into a live link to the donor's CRM profile. 
-You can configure up your organization's Salesforce.com URL by editing the `url:` in  `crmConfig.js` 
+Donor Analyzer supports linking of your custom CRM attribute to your unique Salesforce instance. When configured, it turns the cofigured CRM attribute into a live link to the donor's CRM profile.
+You can configure up your organization's Salesforce.com URL by editing the `url:` in  `crmConfig.js`
 ```const crmConfig = {
   url: '<REPLACE ME WITH YOUR SALEFORCE CRM URL>',
   };
@@ -37,10 +37,9 @@ You can configure up your organization's Salesforce.com URL by editing the `url:
 
 This project is distributed under the [Apache 2 license](LICENSE).
 
-## What do you need to make this work?
+## Dependencies
 
-1. [New Relic Browser agent(s) installed](https://newrelic.com/products/browser-monitoring) and the related access to [New Relic One](https://newrelic.com/platform).
-2. See step 1. :grin:
+Requires [`New Relic Browser`](https://newrelic.com/products/browser-monitoring).
 
 ## Getting started
 
@@ -68,9 +67,11 @@ Visit [https://one.newrelic.com/?nerdpacks=local](https://one.newrelic.com/?nerd
 Open a command prompt in the nerdpack's directory and run the following commands.
 
 ```bash
-# If you need to create a new uuid for the account to which you're deploying this Nerdpack, use the following
-# nr1 nerdpack:uuid -g [--profile=your_profile_name]
-# to see a list of APIkeys / profiles available in your development environment, run nr1 credentials:list
+# To create a new uuid for the nerdpack so that you can deploy it to your account:
+nr1 nerdpack:uuid -g [--profile=your_profile_name]
+
+# To see a list of APIkeys / profiles available in your development environment:
+# nr1 profiles:list
 nr1 nerdpack:publish [--profile=your_profile_name]
 nr1 nerdpack:deploy [-c [DEV|BETA|STABLE]] [--profile=your_profile_name]
 nr1 nerdpack:subscribe [-c [DEV|BETA|STABLE]] [--profile=your_profile_name]
@@ -78,15 +79,11 @@ nr1 nerdpack:subscribe [-c [DEV|BETA|STABLE]] [--profile=your_profile_name]
 
 Visit [https://one.newrelic.com](https://one.newrelic.com), navigate to the Nerdpack, and :sparkles:
 
-# Support
+## Community Support
 
-New Relic has open-sourced this project. This project is provided AS-IS WITHOUT WARRANTY OR SUPPORT, although you can report issues and contribute to the project here on GitHub.
+New Relic hosts and moderates an online forum where you can interact with New Relic employees as well as other customers to get help and share best practices. Like all New Relic open source community projects, there's a related topic in the New Relic Explorers Hub. You can find this project's topic/threads here:
 
-_Please do not report issues with this software to New Relic Global Technical Support._
-
-## Community
-
-New Relic hosts and moderates an online forum where customers can interact with New Relic employees as well as other customers to get help and share best practices. Like all official New Relic open source projects, there's a related Community topic in the New Relic Explorers Hub. You can find this project's topic/threads here:
+[https://discuss.newrelic.com/t/browser-analyzer-nerdpack/82723](https://discuss.newrelic.com/t/browser-analyzer-nerdpack/82723)
 
 https://discuss.newrelic.com/t/donor-analyzer-nerdpack/82723
 *(Note: URL subject to change before GA)*
@@ -95,7 +92,7 @@ https://discuss.newrelic.com/t/donor-analyzer-nerdpack/82723
 
 Issues and enhancement requests can be submitted in the [Issues tab of this repository](../../issues). Please search for and review the existing open issues before submitting a new issue.
 
-# Contributing
+## Contributing
 
 Contributions are welcome (and if you submit a Enhancement Request, expect to be invited to contribute it yourself :grin:). Please review our [Contributors Guide](CONTRIBUTING.md).
 
