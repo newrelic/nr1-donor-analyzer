@@ -5,9 +5,9 @@
 ## Usage
 
 The intention of Donor Analyzer is to view the impact site performance has on donor behavior over a period of time. User can view nr1-donor-analyzer uses the `PageView` events in New Relic to interrogate and categorize the performance of a web site and associated sessions for a user determined timeslice. You can explore the performance of individual pages, and forecast how improving performance impacts KPIs like bounce rate and traffic. This analysis is based on moving individual browsing sessions from `Tolerated` and `Frustrated` into `Satisfied` (as defined by the [`apdex`](https://docs.newrelic.com/docs/apm/new-relic-apm/apdex/apdex-measure-user-satisfaction) value for a given New Relic donor application).
-![Donor Analyzer Overview](screenshots/donor-analyzer-overview.png)
+![Donor Analyzer Overview](catalog/screenshots/nr1-donor-analyzer-01.png)
 ### Impacted Donors
-![Impacted Donor Details](screenshots/impacted-donors-details.png)
+![Impacted Donor Details](catalog/screenshots/nr1-donor-analyzer-02.png)
  - This table shows individual session data for sessions in the selected timeslice that were marked as `Frusterated`.
  - Columns can be sorted accending or decending
 
