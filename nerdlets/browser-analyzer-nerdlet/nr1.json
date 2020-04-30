@@ -3,6 +3,6 @@
     "id": "root",
     "description": "Analyze your web property. Connect performance improvements to business outcomes.",
     "entities": [{ "domain": "BROWSER", "type": "APPLICATION"}],
-    "displayName": "Donor Analyzer",
+    "displayName": "NewRelic.org Donor Analyzer",
     "actionCategory": "monitor"
 }

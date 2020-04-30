@@ -1,4 +1,4 @@
-# nr1-donor-analyzer
+# newrelic.org-donor-analyzer
 
 ![GitHub release (latest SemVer including pre-releases)](https://img.shields.io/github/v/release/newrelic/nr1-donor-analyzer?include_prereleases&sort=semver) [![Snyk](https://snyk.io/test/github/newrelic/nr1-donor-analyzer/badge.svg)](https://snyk.io/test/github/newrelic/nr1-donor-analyzer)
 
