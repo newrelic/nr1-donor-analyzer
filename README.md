@@ -3,18 +3,21 @@
 ![GitHub release (latest SemVer including pre-releases)](https://img.shields.io/github/v/release/newrelic/nr1-donor-analyzer?include_prereleases&sort=semver) [![Snyk](https://snyk.io/test/github/newrelic/nr1-donor-analyzer/badge.svg)](https://snyk.io/test/github/newrelic/nr1-donor-analyzer)
 
 ## Usage
+Donor Analyzer connects your site’s performance with it’s impact on donations.  Using metrics like `Bounce Rate` and session thresholds like `Satisfied`, `Tolerated` & `Frustrated`, the app displays how much giving is at risk for a given time period. 
 
-The intention of Donor Analyzer is to view the impact site performance has on donor behavior over a period of time. User can view nr1-donor-analyzer uses the `PageView` events in New Relic to interrogate and categorize the performance of a web site and associated sessions for a user determined timeslice. You can explore the performance of individual pages, and forecast how improving performance impacts KPIs like bounce rate and traffic. This analysis is based on moving individual browsing sessions from `Tolerated` and `Frustrated` into `Satisfied` (as defined by the [`apdex`](https://docs.newrelic.com/docs/apm/new-relic-apm/apdex/apdex-measure-user-satisfaction) value for a given New Relic donor application).
+Donor Analyzer uses the `PageView` & `Browser Interaction`events in New Relic to interrogate and categorize the performance of a web site and associated sessions for a user determined timeslice. You can explore the performance of individual pages, and forecast how improving performance impacts KPIs like `Bounce Rate`, traffic & now giving. This analysis is based on moving individual browsing sessions from `Tolerated` and `Frustrated` into `Satisfied` (as defined by the [`apdex`](https://docs.newrelic.com/docs/apm/new-relic-apm/apdex/apdex-measure-user-satisfaction) value for a given New Relic donor application).
 ![Donor Analyzer Overview](catalog/screenshots/nr1-donor-analyzer-01.png)
 ### Impacted Donors
 ![Impacted Donor Details](catalog/screenshots/nr1-donor-analyzer-02.png)
  - This table shows individual session data for sessions in the selected timeslice that were marked as `Frusterated`.
- - Columns can be sorted accending or decending
+ - Each session represents an indivdual donor experience on your website.
+ - An associated `CRM ID` can be configured to identify indvidual donors in real time.
+ - Columns can be sorted accending or decending.
 
 ### Frustrated Giving
-Frustrated Giving shows the estimated dollar value of giving that is put at risk through sessions marked as frusterated in the following formula
+Frustrated Giving shows the estimated dollar value of giving that is put at risk through sessions marked as frusterated in the following formula.
 
- Number of `Frustrated` sessions * average donation * .9 = Furstrated Giving.
+Number of `Frustrated` sessions * `Average Donation` * `Bounce Rate` = `Furstrated Giving`.
 
 
 ### Configuration & Set Up
@@ -41,6 +44,8 @@ This project is distributed under the [Apache 2 license](LICENSE).
 
 Requires [`New Relic Browser`](https://newrelic.com/products/browser-monitoring).
 
+### SPA Support
+Support for `Single Page Applications` or `SPA` apps requires a [`New Relic Browser Pro + SPA`](https://docs.newrelic.com/docs/browser/single-page-app-monitoring/get-started/introduction-single-page-app-monitoring)license. 
 ## Getting started
 
 First, ensure that you have [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) and [NPM](https://www.npmjs.com/get-npm) installed. If you're unsure whether you have one or both of them installed, run the following command(s) (If you have them installed these commands will return a version number, if not, the commands won't be recognized):
