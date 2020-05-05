@@ -1,6 +1,6 @@
 {
   "schemaType": "NERDPACK",
   "id": "9f56cb18-c0fc-47e6-84f6-22a601982af2",
-  "displayName": "nr1-donor-analyzer",
+  "displayName": "New Relic.org Donor Analyzer",
   "description": "NR1 Nerdpack business value analysis of Browser data."
 }
