@@ -89,10 +89,9 @@ Visit [https://one.newrelic.com](https://one.newrelic.com), navigate to the Nerd
 
 New Relic hosts and moderates an online forum where you can interact with New Relic employees as well as other customers to get help and share best practices. Like all New Relic open source community projects, there's a related topic in the New Relic Explorers Hub. You can find this project's topic/threads here:
 
-[https://discuss.newrelic.com/t/browser-analyzer-nerdpack/82723](https://discuss.newrelic.com/t/browser-analyzer-nerdpack/82723)
+[https://discuss.newrelic.com/t/nerdpack-donor-analyzer/101177](https://discuss.newrelic.com/t/nerdpack-donor-analyzer/101177)
 
-https://discuss.newrelic.com/t/donor-analyzer-nerdpack/82723
-*(Note: URL subject to change before GA)*
+https://discuss.newrelic.com/t/nerdpack-donor-analyzer/101177
 
 ## Issues / Enhancement Requests
 
