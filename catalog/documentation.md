@@ -25,11 +25,10 @@ By clicking the Edit Settings, the Average Donation amount can be edited. This n
 
 #### Salesforce Link Support
 Donor Analyzer supports linking of your custom CRM attribute to your unique Salesforce instance. When configured, it turns the cofigured CRM attribute into a live link to the donor's CRM profile.
-You can configure up your organization's Salesforce.com URL by editing the `url:` in  `crmConfig.js`
-```const crmConfig = {
-  url: '<REPLACE ME WITH YOUR SALEFORCE CRM URL>',
-  };
-```
+
+In the settings Modal, the dropdown selection provides options for Salesforce or HubSpot CRM. Once selected your organization name can be keyed into the CRM URL path.
+
+![Donor Analyzer Settings](screenshots/nr1-donor-analyzer-03.png)
 
 > Note that this NerdPack is not served as a launcher on the homepage of [New Relic One](https://one.newrelic.com). Instead, you'll have to navigate to a donor app via the Entity Explorer in New Relic One.
 
