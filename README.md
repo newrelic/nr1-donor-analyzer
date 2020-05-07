@@ -5,16 +5,16 @@
 ![GitHub release (latest SemVer including pre-releases)](https://img.shields.io/github/v/release/newrelic/nr1-donor-analyzer?include_prereleases&sort=semver) [![Snyk](https://snyk.io/test/github/newrelic/nr1-donor-analyzer/badge.svg)](https://snyk.io/test/github/newrelic/nr1-donor-analyzer)
 
 ## Usage
-Donor Analyzer connects your site’s performance with it’s impact on donations.  Using metrics like `Bounce Rate` and session thresholds like `Satisfied`, `Tolerated` & `Frustrated`, the app displays how much giving is at risk for a given time period.
+Donor Analyzer connects your site’s performance with its impact on donations.  Using metrics like `Bounce Rate` and session thresholds like `Satisfied`, `Tolerated`, and `Frustrated`, the app displays how much giving is at risk for a given time period.
 
-Donor Analyzer uses the `PageView` & `Browser Interaction`events in New Relic to interrogate and categorize the performance of a web site and associated sessions for a user determined timeslice. You can explore the performance of individual pages, and forecast how improving performance impacts KPIs like `Bounce Rate`, traffic & now giving. This analysis is based on moving individual browsing sessions from `Tolerated` and `Frustrated` into `Satisfied` (as defined by the [`apdex`](https://docs.newrelic.com/docs/apm/new-relic-apm/apdex/apdex-measure-user-satisfaction) value for a given New Relic donor application).
+Donor Analyzer uses the `PageView` and `Browser Interaction`events in New Relic to interrogate and categorize the performance of a website and associated sessions for a user-determined timeslice. You can explore the performance of individual pages and forecast how improving performance impacts KPIs like `Bounce Rate`, traffic, and now, giving. This analysis is based on moving individual browsing sessions from `Tolerated` and `Frustrated` into `Satisfied` (as defined by the [`apdex`](https://docs.newrelic.com/docs/apm/new-relic-apm/apdex/apdex-measure-user-satisfaction) value for a given New Relic donor application).
 ![Donor Analyzer Overview](catalog/screenshots/nr1-donor-analyzer-01.png)
 ### Impacted Donors
 ![Impacted Donor Details](catalog/screenshots/nr1-donor-analyzer-02.png)
- - This table shows individual session data for sessions in the selected timeslice that were marked as `Frusterated`.
+ - This table shows individual session data for sessions in the selected timeslice that are marked as `Frustrated`.
  - Each session represents an indivdual donor experience on your website.
- - An associated `CRM ID` can be configured to identify indvidual donors in real time.
- - Columns can be sorted accending or decending.
+ - You can configure an associated `CRM ID` to identify indvidual donors in real time.
+ - Sort columns by accending or decending order.
 
 ### Frustrated Giving
 Frustrated Giving shows the estimated dollar value of giving that is put at risk through sessions marked as frusterated in the following formula.
@@ -22,20 +22,20 @@ Frustrated Giving shows the estimated dollar value of giving that is put at risk
 Number of `Frustrated` sessions * `Average Donation` * `Bounce Rate` = `Furstrated Giving`.
 
 
-### Configuration & Set Up
+### Configuration and Setup
 The Donor Analyzer can be set up to consume a unique CRM ID passed as a custom attribute through the [`Browser Agent`](https://docs.newrelic.com/docs/browser/new-relic-browser/browser-agent-spa-api/set-custom-attribute). You can then configure which attribute to display in the Impacted Donor table using the Edit Settings gear under the Frustrated Giving Section.
 
 #### Average Donation
-By clicking the Edit Settings, the Average Donation amount can be edited. This number is designed to represent the value of the average giving transaction on your website.
+Edit the Average Donation amount by clicking **Edit Settings**. This number is designed to represent the value of the average giving transaction on your website.
 
 #### CRM Link Support
-Donor Analyzer supports linking of your custom CRM attribute to your unique CRM instance. When configured, it turns the cofigured CRM attribute into a live link to the donor's CRM profile.
+Donor Analyzer supports linking your custom CRM attribute to your unique CRM instance. When configured, it turns the cofigured CRM attribute into a live link to the donor's CRM profile.
 
-In the settings Modal, the dropdown selection provides options for Salesforce or HubSpot CRM. Once selected your organization name can be keyed into the CRM URL path.
+In settings, select either Salesforce or HubSpot CRM. Once this is set, your organization name can be keyed into the CRM URL path.
 
 ![Donor Analyzer Settings](catalog/screenshots/nr1-donor-analyzer-03.png)
 
-> Note that this NerdPack is not served as a launcher on the homepage of [New Relic One](https://one.newrelic.com). Instead, you'll have to navigate to a donor app via the Entity Explorer in New Relic One.
+> Note that this Nerdpack is not served as a launcher on the homepage of [New Relic One](https://one.newrelic.com). Instead,  navigate to a donor app via the Entity Explorer in New Relic One.
 
 ## Open Source License
 
@@ -49,14 +49,14 @@ Requires [`New Relic Browser`](https://newrelic.com/products/browser-monitoring)
 Support for `Single Page Applications` or `SPA` apps requires a [`New Relic Browser Pro + SPA`](https://docs.newrelic.com/docs/browser/single-page-app-monitoring/get-started/introduction-single-page-app-monitoring)license.
 ## Getting started
 
-First, ensure that you have [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) and [NPM](https://www.npmjs.com/get-npm) installed. If you're unsure whether you have one or both of them installed, run the following command(s) (If you have them installed these commands will return a version number, if not, the commands won't be recognized):
+First, ensure that you have [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) and [NPM](https://www.npmjs.com/get-npm) installed. If you're unsure whether you have one or both of them installed, run the following command(s) (If you have them installed these commands will return a version number; if not, the commands won't be recognized):
 
 ```bash
 git --version
 npm -v
 ```
 
-Next, install the [NR1 CLI](https://one.newrelic.com/launcher/developer-center.launcher) by going to [this link](https://one.newrelic.com/launcher/developer-center.launcher) and following the instructions (5 minutes or less) to install and setup your New Relic development environment.
+Next, install the [NR1 CLI](https://one.newrelic.com/launcher/developer-center.launcher) by going to [this link](https://one.newrelic.com/launcher/developer-center.launcher) and following the instructions (5 minutes or less) to install and set up your New Relic development environment.
 
 Next, to clone this repository and run the code locally against your New Relic data, execute the following command:
 
@@ -95,7 +95,7 @@ https://discuss.newrelic.com/t/nerdpack-donor-analyzer/101177
 
 ## Issues / Enhancement Requests
 
-Issues and enhancement requests can be submitted in the [Issues tab of this repository](../../issues). Please search for and review the existing open issues before submitting a new issue.
+Submit issues and enhancement requests in the [Issues tab of this repository](../../issues). Please search for and review the existing open issues before submitting a new issue.
 
 ## Contributing
 
