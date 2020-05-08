@@ -1,15 +1,11 @@
-# nr1-donor-analyzer
-
-![GitHub release (latest SemVer including pre-releases)](https://img.shields.io/github/v/release/newrelic/nr1-donor-analyzer?include_prereleases&sort=semver) [![Snyk](https://snyk.io/test/github/newrelic/nr1-donor-analyzer/badge.svg)](https://snyk.io/test/github/newrelic/nr1-donor-analyzer)
-
 ## Usage
 
 The intention of Donor Analyzer is to view the impact site performance has on donor behavior over a period of time. User can view nr1-donor-analyzer uses the `PageView` events in New Relic to interrogate and categorize the performance of a web site and associated sessions for a user determined timeslice. You can explore the performance of individual pages, and forecast how improving performance impacts KPIs like bounce rate and traffic. This analysis is based on moving individual browsing sessions from `Tolerated` and `Frustrated` into `Satisfied` (as defined by the [`apdex`](https://docs.newrelic.com/docs/apm/new-relic-apm/apdex/apdex-measure-user-satisfaction) value for a given New Relic donor application).
-![Donor Analyzer Overview](screenshots/nr1-donor-analyzer-01.png)
+
 ### Impacted Donors
-![Impacted Donor Details](screenshots/nr1-donor-analyzer-02.png)
- - This table shows individual session data for sessions in the selected timeslice that were marked as `Frusterated`.
- - Columns can be sorted accending or decending
+
+- Table shows individual session data for sessions in the selected timeslice that were marked as `Frustrated`
+- Columns can be sorted accending or decending
 
 ### Frustrated Giving
 Frustrated Giving shows the estimated dollar value of giving that is put at risk through sessions marked as frusterated in the following formula
@@ -27,8 +23,6 @@ By clicking the Edit Settings, the Average Donation amount can be edited. This n
 Donor Analyzer supports linking of your custom CRM attribute to your unique Salesforce instance. When configured, it turns the cofigured CRM attribute into a live link to the donor's CRM profile.
 
 In the settings Modal, the dropdown selection provides options for Salesforce or HubSpot CRM. Once selected your organization name can be keyed into the CRM URL path.
-
-![Donor Analyzer Settings](screenshots/nr1-donor-analyzer-03.png)
 
 > Note that this NerdPack is not served as a launcher on the homepage of [New Relic One](https://one.newrelic.com). Instead, you'll have to navigate to a donor app via the Entity Explorer in New Relic One.
 
