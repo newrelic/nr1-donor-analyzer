@@ -10,7 +10,7 @@
       "address": "opensource+nr1-donor-analyzer@newrelic.com"
     },
     "community": {
-      "url": "https://discuss.newrelic.com/t/browser-analyzer-nerdpack/82723"
+      "url": "https://discuss.newrelic.com/t/nerdpack-donor-analyzer/101177"
     }
   },
   "whatsNew": "\n-Feat: Make use of nr1-community library\n-Feat: make use of the entityGuid in queries\n-Feat: Prep app for supporting SPA's"
