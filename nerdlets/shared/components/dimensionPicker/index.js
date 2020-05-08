@@ -1,5 +1,6 @@
 import React from 'react';
-import { Spinner, Dropdown, DropdownItem } from 'nr1';
+import PropTypes from 'prop-types';
+import { Dropdown, DropdownItem } from 'nr1';
 
 import nrdbQuery from '../lib/nrdb-query';
 import quote from '../lib/quote';
@@ -11,7 +12,7 @@ export default class DimensionPicker extends React.Component {
     this.state = {};
   }
 
-  componentDidMount(prevProps) {
+  componentDidMount() {
     this.loadDimensions();
   }
 
@@ -19,11 +20,11 @@ export default class DimensionPicker extends React.Component {
     const { filterWhere, eventType, attribute, entity } = this.props;
     const timeRange = timePickerNrql(this.props);
 
-    let whereClause = ['true'];
-    if (eventType == 'Metric') {
+    const whereClause = ['true'];
+    if (eventType === 'Metric') {
       whereClause.push(`metricName = '${attribute}'`);
     }
-    if (entity && entity.domain == 'INFRA') {
+    if (entity && entity.domain === 'INFRA') {
       whereClause.push(`entityGuid = '${entity.guid}'`);
     }
     if (filterWhere) whereClause.push(`${filterWhere}`);
@@ -38,11 +39,10 @@ export default class DimensionPicker extends React.Component {
   async loadDimensions() {
     const { account } = this.props;
 
-    this.setState({ dimensions: null });
     if (!this.props.eventType) return;
 
     // get all of the available string attributes
-    let results = await nrdbQuery(account.id, this.getNrql('keySet()'));
+    const results = await nrdbQuery(account.id, this.getNrql('keySet()'));
     this.setState({ attributes: results });
   }
 
@@ -74,3 +74,12 @@ export default class DimensionPicker extends React.Component {
     return <div>{this.renderAttributesTable()}</div>;
   }
 }
+
+DimensionPicker.propTypes = {
+  filterWhere: PropTypes.string,
+  eventType: PropTypes.string,
+  attribute: PropTypes.string,
+  entity: PropTypes.object,
+  account: PropTypes.object,
+  selectAttribute: PropTypes.func
+};

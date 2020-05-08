@@ -5,7 +5,6 @@ import {
   Grid,
   GridItem,
   HeadingText,
-  NrqlQuery,
   Spinner,
   NerdGraphQuery,
   navigation,
@@ -351,7 +350,7 @@ export default class Breakdown extends React.PureComponent {
       autoBom: true
     });
 
-    const fileName = `${Date.now()}-` + `frustrated-constituents.csv`;
+    const fileName = `${Date.now()}-frustrated-constituents.csv`;
     saveAs(blob, fileName);
   }
 
@@ -364,7 +363,7 @@ export default class Breakdown extends React.PureComponent {
       donationValue < 0 ||
       crmAttribute == null ||
       crm == null ||
-      domain == ''
+      domain === ''
     ) {
       Toast.showToast({
         title: 'Please reconfigure your app',
@@ -415,7 +414,7 @@ export default class Breakdown extends React.PureComponent {
     this.setState({ crm: value });
   }
 
-  _updateCrmUrl(domain) {
+  _updateCrmUrl() {
     const crmList = this._getCrmList();
     const { crm } = this.state;
 
@@ -439,7 +438,7 @@ export default class Breakdown extends React.PureComponent {
       {
         domain: value
       },
-      value => this._updateCrmUrl(value)
+      () => this._updateCrmUrl()
     );
   }
 
@@ -647,7 +646,7 @@ export default class Breakdown extends React.PureComponent {
                               fullwidth
                               // eslint-disable-next-line prettier/prettier
                               query={`FROM PageView SELECT  ${crmAttribute.key}, session, duration, deviceType, pageUrl  WHERE appName='${entity.name}' AND duration >= ${frustratedApdex} ${pageUrl ? `WHERE pageUrl = '${pageUrl}'` : ''} limit MAX ${timePickerRange}`}
-                              onClickTable={(dataEl, row, chart) => {
+                              onClickTable={(dataEl, row) => {
                                 this._showDonor(row[`${crmAttribute.key}`]);
                               }}
                             />

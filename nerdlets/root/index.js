@@ -6,7 +6,7 @@ import {
   EntityByGuidQuery,
   HeadingText,
   BlockText,
-  Spinner,
+  Spinner
 } from 'nr1';
 import gql from 'graphql-tag';
 
@@ -36,7 +36,7 @@ export default class Wrapper extends React.PureComponent {
                   entityFragmentExtension={fragment}
                 >
                   {({ data, loading, error }) => {
-                    //debugger;
+                    // debugger;
                     if (loading) {
                       return <Spinner fillContainer />;
                     }
