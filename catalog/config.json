@@ -1,7 +1,7 @@
 {
   "tagline": "Measure donor experiences",
   "repository": "https://github.com/newrelic/nr1-donor-analyzer.git",
-  "details": "Donor Analyzer ingests and maps a customer Browser attribute, CRM ID, to each donor session allowing users to identify key donors whose experiences have been compromised by a poor user experience. Donor analyzer can even export a list of recent frustrated donor sessions into a .CSV file. That file can then be uploaded into any marketing system allowing your organization to rapidly communicate with or remarket to donors who have recently had a bad experience on your site.",
+  "details": "Donor Analyzer ingests and maps a custom Browser attribute, CRM ID, to each donor session allowing users to identify key donors whose experiences have been compromised by a poor user experience. Donor analyzer can even export a list of recent frustrated donor sessions into a .CSV file. That file can then be uploaded into any marketing system allowing your organization to rapidly communicate with or remarket to donors who have recently had a bad experience on your site.",
   "support": {
     "issues": {
       "url": "https://github.com/newrelic/nr1-donor-analyzer/issues"
