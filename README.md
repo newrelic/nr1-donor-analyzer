@@ -1,8 +1,8 @@
 [![New Relic One Catalog Project header](https://github.com/newrelic/open-source-office/raw/master/examples/categories/images/New_Relic_One_Catalog_Project.png)](https://github.com/newrelic/open-source-office/blob/master/examples/categories/index.md#category-new-relic-one-catalog-project)
 
-# New Relic.org Donor Analyzer
+# NewRelic.org Donor Analyzer
 
-![GitHub release (latest SemVer including pre-releases)](https://img.shields.io/github/v/release/newrelic/nr1-donor-analyzer?include_prereleases&sort=semver) [![Snyk](https://snyk.io/test/github/newrelic/nr1-donor-analyzer/badge.svg)](https://snyk.io/test/github/newrelic/nr1-donor-analyzer)
+![CI](https://github.com/newrelic/nr1-donor-analyzer/workflows/CI/badge.svg) ![GitHub release (latest SemVer including pre-releases)](https://img.shields.io/github/v/release/newrelic/nr1-donor-analyzer?include_prereleases&sort=semver) [![Snyk](https://snyk.io/test/github/newrelic/nr1-donor-analyzer/badge.svg)](https://snyk.io/test/github/newrelic/nr1-donor-analyzer)
 
 ## Usage
 Donor Analyzer connects your site’s performance with its impact on donations.  Using metrics like `Bounce Rate` and session thresholds like `Satisfied`, `Tolerated`, and `Frustrated`, the app displays how much giving is at risk for a given time period.
