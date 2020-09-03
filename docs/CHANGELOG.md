@@ -1,3 +1,10 @@
+## [1.2.1](https://github.com/newrelic/nr1-donor-analyzer/compare/v1.2.0...v1.2.1) (2020-09-03)
+
+
+### Bug Fixes
+
+* Trigger release and changelog generation (via GH Actions) ([1d445d4](https://github.com/newrelic/nr1-donor-analyzer/commit/1d445d45e677b87d9320668c91acbd81029d1ff5))
+
 # [1.2.0](https://github.com/newrelic/nr1-browser-analyzer/compare/v1.1.2...v1.2.0) (2020-04-10)
 
 
