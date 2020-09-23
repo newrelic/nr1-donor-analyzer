@@ -1,3 +1,10 @@
+## [1.2.2](https://github.com/newrelic/nr1-donor-analyzer/compare/v1.2.1...v1.2.2) (2020-09-23)
+
+
+### Bug Fixes
+
+* GridItem overflow style ([b69e536](https://github.com/newrelic/nr1-donor-analyzer/commit/b69e536fc5187467cf59642ab310bb4a0a0478fc))
+
 ## [1.2.1](https://github.com/newrelic/nr1-donor-analyzer/compare/v1.2.0...v1.2.1) (2020-09-03)
 
 
