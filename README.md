@@ -24,7 +24,7 @@ Donor Analyzer uses the `PageView` and `Browser Interaction`events in New Relic 
 
 Frustrated Giving shows the estimated dollar value of giving that is put at risk through sessions marked as frusterated in the following formula.
 
-Number of `Frustrated` sessions * `Average Donation` * `Bounce Rate` = `Furstrated Giving`.
+Number of `Frustrated` sessions * `Average Donation` * `Bounce Rate` = `Frustrated Giving`.
 
 
 ### Configuration and Setup
