@@ -13,8 +13,7 @@ const CohortTolerated = function({
     <>
       <Icon
         className="icon"
-        sizeType={Icon.SIZE_TYPE.NORMAL}
-        type={Icon.TYPE.INTERFACE__STATE__WARNING}
+        type={Icon.TYPE.INTERFACE__STATE__WARNING__SIZE_16}
         color="#F5A020"
       />
       <h3 className="cohortTitle">Tolerated</h3>
