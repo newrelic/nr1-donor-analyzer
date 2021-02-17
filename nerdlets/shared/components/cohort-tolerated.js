@@ -7,13 +7,13 @@ const CohortTolerated = function({
   results,
   browserSettingsUrl,
   pageUrl,
-  apdexTarget
+  apdexTarget,
 }) {
   return (
     <>
       <Icon
         className="icon"
-        type={Icon.TYPE.INTERFACE__STATE__WARNING__SIZE_16}
+        type={Icon.TYPE.INTERFACE__STATE__WARNING}
         color="#F5A020"
       />
       <h3 className="cohortTitle">Tolerated</h3>
@@ -73,7 +73,7 @@ CohortTolerated.propTypes = {
   results: PropTypes.object,
   pageUrl: PropTypes.string,
   browserSettingsUrl: PropTypes.string,
-  apdexTarget: PropTypes.number
+  apdexTarget: PropTypes.number,
 };
 
 export default CohortTolerated;
