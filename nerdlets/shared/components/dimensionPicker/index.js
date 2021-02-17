@@ -54,7 +54,6 @@ export default class DimensionPicker extends React.Component {
       <Dropdown
         spacingType={[Dropdown.SPACING_TYPE.MEDIUM]}
         title="Select CRM Attribute"
-        placeholder="Please select your CRM attribute."
       >
         {attributes.map(a => {
           return (
@@ -81,5 +80,5 @@ DimensionPicker.propTypes = {
   attribute: PropTypes.string,
   entity: PropTypes.object,
   account: PropTypes.object,
-  selectAttribute: PropTypes.func
+  selectAttribute: PropTypes.func,
 };

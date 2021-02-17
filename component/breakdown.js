@@ -76,7 +76,7 @@ export default class Breakdown extends Component {
       entityGuid: entityGuid,
       collection: 'donor-analyzer-db',
     })
-      .then((res) => {
+      .then(res => {
         if (Array.isArray(res.data) && res.data.length) {
           const { crmAttr, value, crm, domain } = res.data[0].document;
           this.setState({
@@ -89,7 +89,7 @@ export default class Breakdown extends Component {
           this.setState({ showConfig: true });
         }
       })
-      .catch((err) => {
+      .catch(err => {
         console.log(err);
         Toast.showToast({
           title: 'Unable to fetch data',
@@ -282,7 +282,7 @@ export default class Breakdown extends Component {
       },
     })
       .then(() => this.setState({ showConfig: false }))
-      .catch((err) => {
+      .catch(err => {
         console.log(err);
         Toast.showToast({
           title: 'Unable to save settings',
@@ -320,7 +320,7 @@ export default class Breakdown extends Component {
     for (const key in crmList) {
       if (crm.name === crmList[key].name) {
         console.log('match', crm, crmList[key]);
-        this.setState((prevState) => ({
+        this.setState(prevState => ({
           crm: {
             ...prevState.crm,
             url: crmList[key].url,
@@ -335,7 +335,7 @@ export default class Breakdown extends Component {
       {
         domain: value,
       },
-      (value) => this._updateCrmUrl(value)
+      value => this._updateCrmUrl(value)
     );
   }
 
@@ -396,7 +396,7 @@ export default class Breakdown extends Component {
     const formattedData = `"${
       crmAttribute.key
     }", "session", "duration", "deviceType"\n${data
-      .map((r) => {
+      .map(r => {
         return `"${[
           r[crmAttribute.key],
           r.session,
@@ -517,7 +517,7 @@ export default class Breakdown extends Component {
           <GridItem columnSpan={4} className="cohort tolerated">
             <Icon
               className="icon"
-              type={Icon.TYPE.INTERFACE__STATE__WARNING__SIZE_16}
+              type={Icon.TYPE.INTERFACE__STATE__WARNING}
               color="#F5A020"
             />
             <h3 className="cohortTitle">Tolerated</h3>
@@ -775,7 +775,7 @@ export default class Breakdown extends Component {
                     label="Please select your CRM"
                   >
                     <SelectItem>Select your crm</SelectItem>
-                    {crmList.map((crm) => (
+                    {crmList.map(crm => (
                       <SelectItem key={crm.name} value={crm}>
                         {crm.name}
                       </SelectItem>
@@ -788,7 +788,7 @@ export default class Breakdown extends Component {
                         spacingType={[TextField.SPACING_TYPE.MEDIUM]}
                         placeholder="Please enter your domain"
                         value={this.state.domain}
-                        onChange={(e) => this._setDomain(e.target.value)}
+                        onChange={e => this._setDomain(e.target.value)}
                       />
                       <div>{this.state.crm.url}</div>
                     </div>
