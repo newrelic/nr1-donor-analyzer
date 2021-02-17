@@ -80,5 +80,5 @@ DimensionPicker.propTypes = {
   attribute: PropTypes.string,
   entity: PropTypes.object,
   account: PropTypes.object,
-  selectAttribute: PropTypes.func,
+  selectAttribute: PropTypes.func
 };
