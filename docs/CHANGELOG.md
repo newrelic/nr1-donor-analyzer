@@ -1,3 +1,12 @@
+## [1.2.3](https://github.com/newrelic/nr1-donor-analyzer/compare/v1.2.2...v1.2.3) (2021-02-17)
+
+
+### Bug Fixes
+
+* code review ([c57dd10](https://github.com/newrelic/nr1-donor-analyzer/commit/c57dd100a60a5efe9b21e228c557a487c62a4c0a))
+* correct icon size ([bed1073](https://github.com/newrelic/nr1-donor-analyzer/commit/bed107362d75a2921636324a7fefc9e060dc8d84))
+* fixes nr1 deprecations ([99402bb](https://github.com/newrelic/nr1-donor-analyzer/commit/99402bb91d7ca2db9f96539c11068344c52351d3))
+
 ## [1.2.2](https://github.com/newrelic/nr1-donor-analyzer/compare/v1.2.1...v1.2.2) (2020-09-23)
 
 
