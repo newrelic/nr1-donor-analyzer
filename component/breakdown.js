@@ -17,7 +17,7 @@ import {
   Toast,
   TextField,
   Select,
-  SelectItem,
+  SelectItem
 } from 'nr1';
 import { get } from 'lodash';
 import numeral from 'numeral';
@@ -42,7 +42,7 @@ export default class Breakdown extends Component {
   static propTypes = {
     nerdletUrlState: PropTypes.object.isRequired,
     platformUrlState: PropTypes.object.isRequired,
-    entity: PropTypes.object.isRequired,
+    entity: PropTypes.object.isRequired
   };
 
   constructor(props) {
@@ -54,8 +54,8 @@ export default class Breakdown extends Component {
       crm: null,
       domain: '',
       crmAttribute: {
-        key: 'asdf',
-      },
+        key: 'asdf'
+      }
     };
 
     this._setAccount = this._setAccount.bind(this);
@@ -74,7 +74,7 @@ export default class Breakdown extends Component {
 
     EntityStorageQuery.query({
       entityGuid: entityGuid,
-      collection: 'donor-analyzer-db',
+      collection: 'donor-analyzer-db'
     })
       .then(res => {
         if (Array.isArray(res.data) && res.data.length) {
@@ -83,7 +83,7 @@ export default class Breakdown extends Component {
             donationValue: value,
             crmAttribute: crmAttr,
             crm: crm,
-            domain: domain,
+            domain: domain
           });
         } else {
           this.setState({ showConfig: true });
@@ -94,7 +94,7 @@ export default class Breakdown extends Component {
         Toast.showToast({
           title: 'Unable to fetch data',
           description: err.message || '',
-          type: Toast.TYPE.CRITICAL,
+          type: Toast.TYPE.CRITICAL
         });
       });
 
@@ -114,12 +114,12 @@ export default class Breakdown extends Component {
     return [
       {
         name: 'SalesForce',
-        url: `https://${this.state.domain}.my.salesforce.com`,
+        url: `https://${this.state.domain}.my.salesforce.com`
       },
       {
         name: 'HubSpot',
-        url: `https://hubspot.com/${this.state.domain}`,
-      },
+        url: `https://hubspot.com/${this.state.domain}`
+      }
     ];
   }
 
@@ -129,15 +129,15 @@ export default class Breakdown extends Component {
       id: 'details',
       urlState: {
         pageUrl,
-        entityGuid: entity.guid,
-      },
+        entityGuid: entity.guid
+      }
     });
   }
 
   getQuery({ durationInMinutes }) {
     const {
       entity,
-      nerdletUrlState: { pageUrl },
+      nerdletUrlState: { pageUrl }
     } = this.props;
     const { crmAttribute } = this.state;
     const apdexTarget = entity.settings.apdexTarget || 0.5; // TO DO - Should we set a default value?
@@ -233,7 +233,7 @@ export default class Breakdown extends Component {
       eventType,
       dimension: null,
       filters: {},
-      filterWhere: null,
+      filterWhere: null
     });
   }
 
@@ -264,7 +264,7 @@ export default class Breakdown extends Component {
       Toast.showToast({
         title: 'Please reconfigure your app',
         description: '',
-        type: Toast.TYPE.CRITICAL,
+        type: Toast.TYPE.CRITICAL
       });
       return false;
     }
@@ -278,8 +278,8 @@ export default class Breakdown extends Component {
         value: donationValue,
         crmAttr: crmAttribute,
         crm: crm,
-        domain: domain,
-      },
+        domain: domain
+      }
     })
       .then(() => this.setState({ showConfig: false }))
       .catch(err => {
@@ -287,7 +287,7 @@ export default class Breakdown extends Component {
         Toast.showToast({
           title: 'Unable to save settings',
           description: err.message || '',
-          type: Toast.TYPE.CRITICAL,
+          type: Toast.TYPE.CRITICAL
         });
       });
   }
@@ -298,7 +298,7 @@ export default class Breakdown extends Component {
       Toast.showToast({
         title: 'Please configure your CRM URL in Settings',
         type: Toast.TYPE.CRITICAL,
-        sticky: true,
+        sticky: true
       });
       return null;
     }
@@ -323,8 +323,8 @@ export default class Breakdown extends Component {
         this.setState(prevState => ({
           crm: {
             ...prevState.crm,
-            url: crmList[key].url,
-          },
+            url: crmList[key].url
+          }
         }));
       }
     }
@@ -333,7 +333,7 @@ export default class Breakdown extends Component {
   _setDomain(value) {
     this.setState(
       {
-        domain: value,
+        domain: value
       },
       value => this._updateCrmUrl(value)
     );
@@ -372,7 +372,7 @@ export default class Breakdown extends Component {
 
       const { data } = await NerdGraphQuery.query({
         query: gql,
-        fetchPolicyType: NerdGraphQuery.FETCH_POLICY_TYPE.NO_CACHE,
+        fetchPolicyType: NerdGraphQuery.FETCH_POLICY_TYPE.NO_CACHE
       });
       const { entity } = data.actor;
       await this.setState({ entity, account: entity.account });
@@ -384,8 +384,8 @@ export default class Breakdown extends Component {
   async downloadFrustrated() {
     const {
       platformUrlState: {
-        timeRange: { duration },
-      },
+        timeRange: { duration }
+      }
     } = this.props;
     const { crmAttribute } = this.state;
 
@@ -401,7 +401,7 @@ export default class Breakdown extends Component {
           r[crmAttribute.key],
           r.session,
           r.duration,
-          r.deviceType,
+          r.deviceType
         ].join('","')}"`;
       })
       .join('\n')}`;
@@ -409,7 +409,7 @@ export default class Breakdown extends Component {
     const blob = new Blob([formattedData], {
       // type: 'application/json;charset=utf-8',
       type: 'application/csv;charset=utf-8',
-      autoBom: true,
+      autoBom: true
     });
 
     const fileName = `${Date.now()}-` + `frustrated-constituents.csv`;
@@ -421,8 +421,8 @@ export default class Breakdown extends Component {
       entity,
       nerdletUrlState: { pageUrl },
       platformUrlState: {
-        timeRange: { duration },
-      },
+        timeRange: { duration }
+      }
     } = this.props;
 
     const durationInMinutes = duration / 1000 / 60;
@@ -439,7 +439,7 @@ export default class Breakdown extends Component {
 
     const {
       settings: { apdexTarget },
-      servingApmApplicationId,
+      servingApmApplicationId
     } = entity;
     const frustratedApdex = Math.round(apdexTarget * 4 * 10) / 10;
     const browserSettingsUrl = `https://rpm.newrelic.com/accounts/${entity.accountId}/browser/${servingApmApplicationId}/edit#/settings`;
@@ -725,8 +725,8 @@ export default class Breakdown extends Component {
       entity,
       nerdletUrlState: { pageUrl },
       platformUrlState: {
-        timeRange: { duration },
-      },
+        timeRange: { duration }
+      }
     } = this.props;
     const { showConfig, crmAttribute, domain } = this.state;
     const durationInMinutes = duration / 1000 / 60;
@@ -749,7 +749,7 @@ export default class Breakdown extends Component {
             Toast.showToast({
               title: 'An error occurred.',
               type: Toast.TYPE.CRITICAL,
-              sticky: true,
+              sticky: true
             });
             return (
               <div className="error">
