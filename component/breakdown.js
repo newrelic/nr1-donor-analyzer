@@ -517,7 +517,6 @@ export default class Breakdown extends Component {
           <GridItem columnSpan={4} className="cohort tolerated">
             <Icon
               className="icon"
-              sizeType={Icon.SIZE_TYPE.NORMAL}
               type={Icon.TYPE.INTERFACE__STATE__WARNING}
               color="#F5A020"
             />
@@ -651,7 +650,13 @@ export default class Breakdown extends Component {
                   fullheight
                   fullwidth
                   // eslint-disable-next-line prettier/prettier
-                        query={`FROM PageView SELECT  ${crmAttribute.key}, session, duration, deviceType, pageUrl  WHERE appName='${entity.name}' AND duration >= ${frustratedApdex} ${pageUrl ? `WHERE pageUrl = '${pageUrl}'` : ''} limit MAX SINCE ${durationInMinutes} MINUTES AGO`}
+                  query={`FROM PageView SELECT  ${
+                    crmAttribute.key
+                  }, session, duration, deviceType, pageUrl  WHERE appName='${
+                    entity.name
+                  }' AND duration >= ${frustratedApdex} ${
+                    pageUrl ? `WHERE pageUrl = '${pageUrl}'` : ''
+                  } limit MAX SINCE ${durationInMinutes} MINUTES AGO`}
                   onClickTable={(dataEl, row, chart) => {
                     this._showDonor(row[`${crmAttribute.key}`]);
                   }}
