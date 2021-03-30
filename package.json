@@ -17,7 +17,7 @@
     "file-saver": "^2.0.2",
     "graphql": "^14.7.0",
     "graphql-tag": "^2.11.0",
-    "lodash": "^4.17.20",
+    "lodash": "^4.17.21",
     "numeral": "^2.0.6",
     "pretty-ms": "^6.0.1",
     "prop-types": "^15.6.2"
