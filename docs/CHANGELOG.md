@@ -1,3 +1,10 @@
+## [1.2.4](https://github.com/newrelic/nr1-donor-analyzer/compare/v1.2.3...v1.2.4) (2021-05-07)
+
+
+### Bug Fixes
+
+* upgrade lodash from 4.17.20 to 4.17.21 ([ab88801](https://github.com/newrelic/nr1-donor-analyzer/commit/ab8880149459dae799205390d5d484278d62ac5d))
+
 ## [1.2.3](https://github.com/newrelic/nr1-donor-analyzer/compare/v1.2.2...v1.2.3) (2021-02-17)
 
 
